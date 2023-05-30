@@ -347,8 +347,8 @@ typedef enum{
  */
 typedef enum
 {
-    DIO_IN		=	0	,		/** Input direction */
-    DIO_OUT		=	1			/** Output direction */
+    DIO_IN		=	0	,
+    DIO_OUT		=	1
 } enu_dio_direction_t_;
 
 /**
@@ -360,8 +360,8 @@ typedef enum
  */
 typedef enum
 {
-    DIO_PORT_IN		= 0		,		/** Input direction */
-    DIO_PORT_OUT	= 0xFF			/** Output direction */
+    DIO_PORT_IN		= 0		,
+    DIO_PORT_OUT	= 0xFF
 } enu_dio_port_direction_t_;
 
 /**
@@ -373,12 +373,12 @@ typedef enum
  */
 typedef enum enu_dio_error_t_
 {
-    DIO_OK = 0,     /**< Operation completed successfully */
-    DIO_ERROR,   /**< An error occurred during the operation */
-    DIO_WRONG_PIN,
-    DIO_WRONG_PORT,
-    DIO_WRONG_PIN_VAL,
-    DIO_WRONG_PORT_VAL,
+    DIO_OK = 0          ,
+    DIO_ERROR           ,
+    DIO_WRONG_PIN       ,
+    DIO_WRONG_PORT      ,
+    DIO_WRONG_PIN_VAL   ,
+    DIO_WRONG_PORT_VAL  ,
     DIO_READ_ERROR
 } enu_dio_error_t_;
 
