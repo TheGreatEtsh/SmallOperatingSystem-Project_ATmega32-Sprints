@@ -1,11 +1,11 @@
-/*
- * dio_private.h
+/**
+ * @file    :   dio_private.h
+ * @author  :   Hossam Elwahsh - https://github.com/HossamElwahsh
+ * @brief   :   This file contains all Digital Input Output (DIO) registers' locations.
+ * @version :   2.0
+ * @date    :   2023-05-29
  *
- *     Created on: Apr 10, 2023
- *         Author: Hossam Elwahsh - https://github.com/HossamElwahsh
- *    Description: This file contains all Digital Input Output (DIO) registers' locations.
- *  MCU Datasheet: AVR ATmega32
- *                  https://ww1.microchip.com/downloads/en/DeviceDoc/Atmega32A-DataSheet-Complete-DS40002072A.pdf
+ * @copyright Copyright (c) 2023
  */
 
 #ifndef DIO_PRIVATE_H_

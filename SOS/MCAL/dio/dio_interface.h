@@ -1,12 +1,11 @@
 /**
- * dio_interface.h
+ * @file    :   dio_interface.h
+ * @author  :   Hossam Elwahsh - https://github.com/HossamElwahsh
+ * @brief   :   Header File contains all Digital Input Output (DIO) functions' prototypes and Macros
+ * @version :   2.0
+ * @date    :   2023-05-29
  *
- *     Created on: APR 10, 2023
- *         Author: Hossam Elwahsh - https://github.com/HossamElwahsh
- *    Description: This file contains all Digital Input Output (DIO) functions'
- *                  prototypes and definitions (Macros) to avoid magic numbers.
- *  MCU Datasheet: AVR ATmega32
- *                  https://ww1.microchip.com/downloads/en/DeviceDoc/Atmega32A-DataSheet-Complete-DS40002072A.pdf
+ * @copyright Copyright (c) 2023
  */
 
 #ifndef DIO_INTERFACE_H_
