@@ -11,8 +11,15 @@
 
 #include "std.h"
 #include "sos_preconfig.h"
+#include "timer_interface.h"
 
 typedef void(*ptr_func_task_t_)(void);
+
+typedef enum
+{
+	SOS_SCHEDULER_BLOCKED			= 0 ,
+	SOS_SCHEDULER_READY
+}enu_sos_scheduler_state_t_;
 
 typedef enum
 {
