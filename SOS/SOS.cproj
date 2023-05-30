@@ -166,7 +166,31 @@
     <Compile Include="MCAL\exi\CFile1.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MCAL\timer\timer_cfg.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\timer\timer_cfg.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\timer\timer_interface.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\timer\timer_private.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\timer\timer_program.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="SERV\sos\sos_interface.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SERV\sos\sos_preconfig.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SERV\sos\sos_private.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SERV\sos\sos_program.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

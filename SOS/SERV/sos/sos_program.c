@@ -7,8 +7,8 @@
 #include "sos_interface.h"
 #include "sos_private.h"
 static str_sos_task_t_*	ptr_str_arr_task[SOS_NUMBER_OF_TASKS] = {NULL_PTR};
-	
-	
+uint32_t_ gl_uint32_tick_counter = 0; uint8_t_ gl_uint8_number_of_tasks_added = 0;
+enu_sos_scheduler_state_t_	gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
 	/**
  *	@syntax				:	sos_init(void);
  *	@description		:	Initializes the sos module
@@ -842,7 +842,27 @@ static void					sos_sort_database	(void)
  */
 enu_sos_status_t_ sos_run(void)
 {
+	enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
 
+	if(TIMER_NOK == TIMER_resume(TIMER_0))
+	{
+		enu_return_value = SOS_STATUS_FAILED;
+	}
+	else
+	{
+		/*SOS_STATUS_SUCCESS*/
+	}
+	if (SOS_STATUS_SUCCESS == enu_return_value)
+	{
+		while(1)
+		{
+			if (SOS_SCHEDULER_READY == gl_enu_sos_scheduler_state)
+			{
+				sos_system_scheduler();
+			}
+		}
+	}
+	return enu_return_value;
 }
 
 /**
@@ -857,15 +877,52 @@ enu_sos_status_t_ sos_run(void)
  */
 enu_sos_status_t_ sos_disable(void)
 {
+	enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
 
+	if(TIMER_NOK == TIMER_pause(TIMER_0))
+	{
+		enu_return_value = SOS_STATUS_FAILED;
+	}
+	else
+	{
+		/*SOS_STATUS_SUCCESS*/
+	}
+	return enu_return_value;
 }
 
 static void	sos_system_scheduler(void)
 {
-
+	if (0 != gl_uint8_number_of_tasks_added)	
+	{	
+		uint8_t_ uint8_looping_variable;
+		for (uint8_looping_variable = 0; uint8_looping_variable < gl_uint8_number_of_tasks_added; uint8_looping_variable++)
+		{
+			if (0 == (gl_uint32_tick_counter % ptr_str_arr_task[uint8_looping_variable]->uint16_task_periodicity))
+			{
+				if (NULL_PTR != ptr_str_arr_task[uint8_looping_variable]->ptr_func_task)
+				{
+					ptr_str_arr_task[uint8_looping_variable]->ptr_func_task();
+				}
+				else
+				{
+					/*FUNCTION DOES NOT EXIST*/
+				}
+			}
+			else
+			{
+				/*TASK IS NOT READY*/
+			}
+		}
+		gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
+	}
+	else
+	{
+		/*DATA BASE IS EMPTY*/
+	}
 }
 
 static void	sos_sys_tick_task	(void)
 {
-
+	gl_uint32_tick_counter++;
+	gl_enu_sos_scheduler_state = SOS_SCHEDULER_READY;
 }
