@@ -163,7 +163,19 @@
     <Compile Include="MCAL\dio\dio_program.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MCAL\exi\CFile1.c">
+    <Compile Include="MCAL\exi\exi_cfg.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\exi\exi_cfg.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\exi\exi_interface.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\exi\exi_private.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\exi\exi_program.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="MCAL\timer\timer_cfg.c">
