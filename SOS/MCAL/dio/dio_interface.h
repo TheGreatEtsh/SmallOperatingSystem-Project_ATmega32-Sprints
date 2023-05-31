@@ -14,7 +14,6 @@
 /* DIO Includes **/
 
 /* UTILITIES */
-#include "bit_math.h"
 #include "std.h"
 
 /* DIO Macros/Enums **/
