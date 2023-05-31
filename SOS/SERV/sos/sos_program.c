@@ -251,92 +251,91 @@ enu_sos_status_t_ sos_deinit(void)
 }// Line 251
 
 /**
- *	@syntax				:	sos_createTask(str_sos_task_t_* ptr_str_task);
- *	@description		:	Creates tasks and add them to the data base
- *	@Sync\Async      	:	Synchronous
- *  @Reentrancy      	:	Reentrant
- *  @Parameters (in) 	:	*ptr_str_task
- *  @Parameters (out)	:	*ptr_str_task
- *  @Return value		:	sos_STATUS_SUCCESS in case of SUCCESS
- *							sos_STATUS_DATABASE_FULL in case of Database is full
+ *	@author				                    :	Hossam Elwahsh - https://github.com/HossamElwahsh
+ *
+ *	@brief		                            :	Generates a new task ID, add the requested task parameters to the database
+ *  @param[in,out]  ptr_str_task 	        :   Pointer to task structure
+ *
+ *  @Return     SOS_STATUS_SUCCESS		    :	in case of Success
+ *              SOS_STATUS_INVALID_STATE    :   SOS Invalid State (uninitialized)
+ *              SOS_STATUS_DATABASE_FULL    :   Failed to add new task, Database is full
  */
-enu_sos_status_t_ sos_createTask(str_sos_task_t_* ptr_str_task)
+enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task)
 {//Line 264
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+    enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
+
+    // SOS System State Check
+    if(gl_enu_sos_scheduler_state == SOS_SCHEDULER_UNINITIALIZED)
+    {
+        enu_sos_status_retval = SOS_STATUS_INVALID_STATE;
+    }
+    // Arguments check
+    else if(
+            NULL_PTR == ptr_str_task                    ||  // task ptr is null
+            ptr_str_task->uint16_task_periodicity == 0  ||  // task periodicity is 0 (infinite)
+            NULL_PTR == ptr_str_task->ptr_func_task         // task function ptr is null
+            )
+    {
+        enu_sos_status_retval = SOS_STATUS_INVALID_ARGS;
+    }
+    else
+    {
+        /* Task Creation */
+        // get next empty db index
+        uint8_t_ uint8_number_of_tasks_in_db = 0;
+        for (uint8_t_ i = 0; i < SOS_NUMBER_OF_TASKS; ++i) {
+            if (NULL_PTR == gl_arr_ptr_str_task[i])
+            {
+                /* Reached end of DB */
+                break;
+            }
+            else
+            {
+                uint8_number_of_tasks_in_db++;
+            }
+        }
+
+        if(SOS_NUMBER_OF_TASKS == uint8_number_of_tasks_in_db)
+        {
+            /* DB FULL */
+            enu_sos_status_retval = SOS_STATUS_DATABASE_FULL;
+        }
+        else
+        {
+            // generate a new task ID
+            uint8_t_ uint8_generated_task_id = 0;
+            enu_sos_status_retval = sos_generate_task_id(&uint8_generated_task_id);
+            if(enu_sos_status_retval == SOS_STATUS_SUCCESS)
+            {
+                // task ID generated successfully
+                // update task structure
+                ptr_str_task->uint8_task_id = uint8_generated_task_id;
+
+                // save task in DB
+                gl_arr_ptr_str_task[uint8_number_of_tasks_in_db] = ptr_str_task;
+                enu_sos_status_retval = SOS_STATUS_SUCCESS;
+            }
+            else
+            {
+                /* Do Nothing */
+            }
+        }
+    }
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 	
@@ -362,6 +361,7 @@ enu_sos_status_t_ sos_createTask(str_sos_task_t_* ptr_str_task)
 
 
 	
+    return enu_sos_status_retval;
 }//Line 365
 
 /**
