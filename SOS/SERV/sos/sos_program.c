@@ -369,7 +369,7 @@ enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task)
  *	@author				                    :	Hossam Elwahsh - https://github.com/HossamElwahsh
  *
  *	@brief		                            :	Deletes a task from DB
- *  @param[in,out]  ptr_str_task 	        :   Pointer to task structure
+ *  @param[in,out]  uint8_task_id 	        :   Task ID to delete from DB
  *
  *  @Return     SOS_STATUS_SUCCESS		    :	Success,    Task deleted successfully
  *              SOS_STATUS_INVALID_STATE    :   Failed,     SOS Invalid State (uninitialized)
@@ -388,13 +388,16 @@ enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
     else
     {
         // search for task ID in DB
-        str_sos_task_t_ ** str_sos_task_to_delete;
-        enu_sos_status_retval = sos_find_task(uint8_task_id, str_sos_task_to_delete);
+        str_sos_task_t_ *ptr_str_sos_task_to_delete = NULL;
+        enu_sos_status_retval = sos_find_task(uint8_task_id, &ptr_str_sos_task_to_delete);
 
-        if(SOS_STATUS_SUCCESS == enu_sos_status_retval) // task found
+        if(
+                SOS_STATUS_SUCCESS == enu_sos_status_retval      &&
+                NULL_PTR != ptr_str_sos_task_to_delete
+        ) // task found
         {
             /* Task Found - Delete it */
-            *str_sos_task_to_delete = NULL_PTR;
+            ptr_str_sos_task_to_delete = NULL_PTR;
             enu_sos_status_retval = SOS_STATUS_SUCCESS;
         }
         else
