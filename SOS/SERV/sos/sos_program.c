@@ -21,9 +21,35 @@ enu_sos_scheduler_state_t_	gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
  */ 
 enu_sos_status_t_ sos_init(void)
 {//Line23
+	enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
+	if (TIMER_init(  )==TIMER_NOK)
+	{enu_sos_status_retval = SOS_STATUS_FAILED;
+	} 
+	else
+	{//SUCCESS
+	}
 	
 	
+	if (TIMER_setTime(TIMER_0, SOS_SYS_TICK_TIME_MS)==TIMER_NOK)
+	{
+		enu_sos_status_retval = SOS_STATUS_FAILED;
+	} 
+	else
+	{//SUCCESS
+	}
 	
+	if (TIMER_enableInterrupt(TIMER_0)==TIMER_NOK)
+	{enu_sos_status_retval = SOS_STATUS_FAILED;
+	} 
+	else
+	{//SUCCESS
+	}
+	if (TIMER_setCallBack(TIMER_0,sos_sys_tick_task)== TIMER_NOK)
+	{enu_sos_status_retval = SOS_STATUS_FAILED;
+	} 
+	else
+	{//SUCCESS
+	}
 	
 	
 	
@@ -115,12 +141,7 @@ enu_sos_status_t_ sos_init(void)
 	
 	
 	
-	
-	
-	
-	
-	
-	
+	return enu_sos_status_retval;
 	
 }//Line 125
 
@@ -137,9 +158,23 @@ enu_sos_status_t_ sos_init(void)
 enu_sos_status_t_ sos_deinit(void)
 {//Line138
 	
+	enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
 	
+	if (TIMER_pause(TIMER_0)==TIMER_NOK)
+	{
+		enu_sos_status_retval = SOS_STATUS_FAILED;
+	} 
+	else
+	{//SUCCESS
+	}
 	
 	
+	if (TIMER_disableInterrupt(TIMER_0)==TIMER_NOK)
+	{ enu_sos_status_retval = SOS_STATUS_FAILED;
+	} 
+	else
+	{//SUCCESS
+	}
 	
 	
 	
@@ -243,10 +278,7 @@ enu_sos_status_t_ sos_deinit(void)
 	
 	
 	
-	
-	
-	
-	
+return enu_sos_status_retval;	
 	
 }// Line 251
 
