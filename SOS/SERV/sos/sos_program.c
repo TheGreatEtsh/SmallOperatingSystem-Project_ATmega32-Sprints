@@ -388,25 +388,13 @@ enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
     else
     {
         // search for task ID in DB
-        uint8_t_ bool_found = FALSE;
-        uint8_t_ uint8_task_index = 0;
-        for (uint8_t_ i = 0; i < SOS_NUMBER_OF_TASKS; ++i) {
-            if(uint8_task_id == gl_arr_ptr_str_task[i]->uint8_task_id)
-            {
-                bool_found = TRUE;
-                uint8_task_index = i;
-                break;
-            }
-            else
-            {
-                /* Do Nothing */
-            }
-        }
+        str_sos_task_t_ ** str_sos_task_to_delete;
+        enu_sos_status_retval = sos_find_task(uint8_task_id, str_sos_task_to_delete);
 
-        if(TRUE == bool_found)
+        if(SOS_STATUS_SUCCESS == enu_sos_status_retval) // task found
         {
             /* Task Found - Delete it */
-            gl_arr_ptr_str_task[uint8_task_index] = NULL_PTR;
+            *str_sos_task_to_delete = NULL_PTR;
             enu_sos_status_retval = SOS_STATUS_SUCCESS;
         }
         else
@@ -417,6 +405,18 @@ enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
     }
 
     return enu_sos_status_retval;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -620,13 +620,13 @@ enu_sos_status_t_ sos_modify(str_sos_task_t_ str_task)
  *
  *	@brief		                            :	Finds a task in DB using it's ID
  *  @param[in]      uint8_task_id 	        :   Task ID to search for
- *  @param[out]     ptr_str_task 	        :   Pointer to store found task
+ *  @param[out]     ptr_ptr_str_sos_task 	:   Pointer to pointer store found task address
  *
  *  @Return     SOS_STATUS_SUCCESS		    :	Success,    Task found
  *              SOS_STATUS_INVALID_STATE    :   Failed,     SOS Invalid State (uninitialized)
  *              SOS_STATUS_INVALID_TASK_ID  :   Failed,     Task ID not found in DB
  */
-static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_* ptr_str_sos_task)
+static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_ ** ptr_ptr_str_sos_task)
 {
     enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
 
@@ -636,7 +636,7 @@ static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_
         enu_sos_status_retval = SOS_STATUS_INVALID_STATE;
     }
     // Arguments check
-    else if(NULL_PTR == ptr_str_sos_task)
+    else if(NULL_PTR == ptr_ptr_str_sos_task)
     {
         enu_sos_status_retval = SOS_STATUS_INVALID_ARGS;
     }
@@ -650,7 +650,7 @@ static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_
             if(uint8_task_id == gl_arr_ptr_str_task[i]->uint8_task_id)
             {
                 bool_found = TRUE;
-                ptr_str_sos_task = gl_arr_ptr_str_task[i]; // save found task pointer
+                *ptr_ptr_str_sos_task = gl_arr_ptr_str_task[i]; // save found task pointer
                 break;
             }
             else
