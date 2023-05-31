@@ -313,6 +313,10 @@ enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task)
 
                 // save task in DB
                 gl_arr_ptr_str_task[uint8_number_of_tasks_in_db] = ptr_str_task;
+
+                // sort DB tasks according to task priority // todo-hossam check on alaa adding a return value for this?
+                sos_sort_database();
+
                 enu_sos_status_retval = SOS_STATUS_SUCCESS;
             }
             else
@@ -351,11 +355,7 @@ enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task)
 	
 	
 	
-	
-	
-	
-	
-	
+
 	
 	
 
@@ -365,57 +365,57 @@ enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task)
 }//Line 365
 
 /**
- *	@syntax				:	sos_delete_task(uint8_t_ uint8_task_id);
- *	@description		:	delete tasks from Database
- *	@Sync\Async      	:	Synchronous
- *  @Reentrancy      	:	Reentrant
- *  @Parameters (in) 	:	uint8_taskID
- *  @Parameters (out)	:	None
- *  @Return value		:	SOS_STATUS_SUCCESS in case of SUCCESS
- *							SOS_STATUS_TASK_NFOUND in case task is not found
+ *	@author				                    :	Hossam Elwahsh - https://github.com/HossamElwahsh
+ *
+ *	@brief		                            :	Deletes a task from DB
+ *  @param[in,out]  ptr_str_task 	        :   Pointer to task structure
+ *
+ *  @Return     SOS_STATUS_SUCCESS		    :	Success,    Task deleted successfully
+ *              SOS_STATUS_INVALID_STATE    :   Failed,     SOS Invalid State (uninitialized)
+ *              SOS_STATUS_INVALID_TASK_ID  :   Failed,     Task ID not found in DB
  */
 enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
 {//Line 378
 
+    enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
 
+    // SOS System State Check
+    if(gl_enu_sos_scheduler_state == SOS_SCHEDULER_UNINITIALIZED)
+    {
+        enu_sos_status_retval = SOS_STATUS_INVALID_STATE;
+    }
+    else
+    {
+        // search for task ID in DB
+        uint8_t_ bool_found = FALSE;
+        uint8_t_ uint8_task_index = 0;
+        for (uint8_t_ i = 0; i < SOS_NUMBER_OF_TASKS; ++i) {
+            if(uint8_task_id == gl_arr_ptr_str_task[i]->uint8_task_id)
+            {
+                bool_found = TRUE;
+                uint8_task_index = i;
+                break;
+            }
+            else
+            {
+                /* Do Nothing */
+            }
+        }
 
+        if(TRUE == bool_found)
+        {
+            /* Task Found - Delete it */
+            gl_arr_ptr_str_task[uint8_task_index] = NULL_PTR;
+            enu_sos_status_retval = SOS_STATUS_SUCCESS;
+        }
+        else
+        {
+            /* Task not found */
+            enu_sos_status_retval = SOS_STATUS_INVALID_TASK_ID;
+        }
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return enu_sos_status_retval;
 
 
 
