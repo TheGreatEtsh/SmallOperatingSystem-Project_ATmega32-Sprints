@@ -503,60 +503,57 @@ enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
 }//Line 500
 
 /**
- *	@syntax				:	sos_modify(str_sos_task_t_ str_task);
- *	@description		:	Modifies tasks and updates the  database
- *	@Sync\Async      	:	Synchronous
- *  @Reentrancy      	:	Reentrant
- *  @Parameters (in) 	:	str_task
- *  @Parameters (out)	:	None
- *  @Return value		:	SOS_STATUS_SUCCESS in case of SUCCESS
- *							SOS_STATUS_TASK_NFOUND in case task is not found
+ *	@author				                    :	Hossam Elwahsh - https://github.com/HossamElwahsh
+ *
+ *	@brief		                            :	Modifies a task
+ *  @param[in]  str_task 	                :   Task Data
+ *
+ *  @Return     SOS_STATUS_SUCCESS		    :	Success,    Task deleted successfully
+ *              SOS_STATUS_INVALID_STATE    :   Failed,     SOS Invalid State (uninitialized)
+ *              SOS_STATUS_INVALID_ARGS     :   Failed,     Invalid Arguments Given
+ *              SOS_STATUS_INVALID_TASK_ID  :   Failed,     Task ID not found in DB
  */
 enu_sos_status_t_ sos_modify(str_sos_task_t_ str_task)
-{//Line513
+{
+    enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
 
+    // SOS System State Check
+    if(gl_enu_sos_scheduler_state == SOS_SCHEDULER_UNINITIALIZED)
+    {
+        enu_sos_status_retval = SOS_STATUS_INVALID_STATE;
+    }
+    // Arguments check
+    else if(
+                    (NULL_PTR == str_task.ptr_func_task) ||
+                    (0 == str_task.uint16_task_periodicity)
+            )
+    {
+        enu_sos_status_retval = SOS_STATUS_INVALID_ARGS;
+    }
+    else
+    {
+        // search for task ID in DB
+        str_sos_task_t_ * ptr_str_sos_task_to_delete = NULL;
+        enu_sos_status_retval = sos_find_task(str_task.uint8_task_id, &ptr_str_sos_task_to_delete);
 
+        if(SOS_STATUS_SUCCESS == enu_sos_status_retval) // task found
+        {
+            /* DB Task Ptr Found - Modify it */
 
+            ptr_str_sos_task_to_delete->uint8_task_priority     = str_task.uint8_task_priority;
+            ptr_str_sos_task_to_delete->uint16_task_periodicity = str_task.uint16_task_periodicity;
+            ptr_str_sos_task_to_delete->ptr_func_task           = str_task.ptr_func_task;
 
+            enu_sos_status_retval = SOS_STATUS_SUCCESS;
+        }
+        else
+        {
+            /* Task not found */
+            enu_sos_status_retval = SOS_STATUS_INVALID_TASK_ID;
+        }
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return enu_sos_status_retval;
 
 
 
