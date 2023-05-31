@@ -510,7 +510,7 @@ enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
  *              SOS_STATUS_INVALID_ARGS     :   Failed,     Invalid Arguments Given
  *              SOS_STATUS_INVALID_TASK_ID  :   Failed,     Task ID not found in DB
  */
-enu_sos_status_t_ sos_modify(str_sos_task_t_ str_task)
+enu_sos_status_t_ sos_modify_task(str_sos_task_t_ str_task)
 {
     enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
 
@@ -960,7 +960,7 @@ static enu_sos_status_t_    sos_generate_task_id(uint8_t_ * uint8_new_task_id)
 
         // IDs Maps
         // 0(false): unused, 1(true): used
-        uint8_t_ uint8_ids_map[SOS_MAX_ID_NUMBER+1] = {FALSE};
+        uint8_t_ uint8_ids_map[SOS_NUMBER_OF_TASKS] = {FALSE};
 
         // Calculate ids map DB O(n)
         for (uint8_t_ i = 0; i < SOS_NUMBER_OF_TASKS; ++i) {
@@ -976,7 +976,7 @@ static enu_sos_status_t_    sos_generate_task_id(uint8_t_ * uint8_new_task_id)
         }
 
         // Get first unused ID, worst case: O(n)
-        for (uint8_t_ id = 0; id <= SOS_MAX_ID_NUMBER; ++id) {
+        for (uint8_t_ id = 0; id < SOS_NUMBER_OF_TASKS; ++id) {
             if(FALSE == uint8_ids_map[id])
             {
                 *uint8_new_task_id = id;
@@ -997,4 +997,25 @@ static enu_sos_status_t_    sos_generate_task_id(uint8_t_ * uint8_new_task_id)
     }
 
     return enu_sos_status_retval;
+}
+
+
+static int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+static int lcm(int a, int b) {
+    return (a * b) / gcd(a, b);
+}
+
+static int hyper_period(int n) {
+//    int hp = tasks[0];
+//    for (int i = 1; i < n; i++)
+//        hp = lcm(hp, tasks[i]);
+//    return hp;
 }

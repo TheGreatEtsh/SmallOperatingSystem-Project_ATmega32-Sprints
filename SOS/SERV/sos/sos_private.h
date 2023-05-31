@@ -16,4 +16,9 @@ static void					sos_system_scheduler(void);
 static void					sos_sys_tick_task	(void);
 static enu_sos_status_t_    sos_generate_task_id(uint8_t_ * uint8_new_task_id);
 
+/* Hyper-period Calculations */
+static int gcd(int a, int b);
+static int lcm(int a, int b);
+static int hyper_period(int n);
+
 #endif /* SOS_PRIVATE_H_ */

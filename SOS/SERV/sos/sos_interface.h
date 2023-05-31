@@ -93,7 +93,7 @@ enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task);
 enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id);
 
 /**
- *	@syntax				:	sos_modify(str_sos_task_t_ str_task);
+ *	@syntax				:	sos_modify_task(str_sos_task_t_ str_task);
  *	@description		:	Modifies tasks and updates the  database
  *	@Sync\Async      	:	Synchronous
  *  @Reentrancy      	:	Reentrant
@@ -102,7 +102,7 @@ enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id);
  *  @Return value		:	SOS_STATUS_SUCCESS in case of SUCCESS
  *							SOS_STATUS_TASK_NFOUND in case task is not found
  */
-enu_sos_status_t_ sos_modify(str_sos_task_t_ str_task);
+enu_sos_status_t_ sos_modify_task(str_sos_task_t_ str_task);
 
 /**
  *	@syntax				:	sos_run(void);
@@ -117,7 +117,7 @@ enu_sos_status_t_ sos_modify(str_sos_task_t_ str_task);
 enu_sos_status_t_ sos_run(void);
 
 /**
- *	@syntax				:	sos_modify(str_sos_taskCreate_t_ str_task);
+ *	@syntax				:	sos_modify_task(str_sos_taskCreate_t_ str_task);
  *	@description		:	Stops the timer
  *	@Sync\Async      	:	Synchronous
  *  @Reentrancy      	:	Reentrant
