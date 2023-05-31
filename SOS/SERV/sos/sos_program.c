@@ -6,7 +6,7 @@
  */ 
 #include "sos_interface.h"
 #include "sos_private.h"
-static str_sos_task_t_*	ptr_str_arr_task[SOS_NUMBER_OF_TASKS] = {NULL_PTR};
+static str_sos_task_t_*	gl_arr_ptr_str_task[SOS_NUMBER_OF_TASKS] = {NULL_PTR};
 uint32_t_ gl_uint32_tick_counter = 0; uint8_t_ gl_uint8_number_of_tasks_added = 0;
 enu_sos_scheduler_state_t_	gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
 	/**
@@ -897,11 +897,11 @@ static void	sos_system_scheduler(void)
 		uint8_t_ uint8_looping_variable;
 		for (uint8_looping_variable = 0; uint8_looping_variable < gl_uint8_number_of_tasks_added; uint8_looping_variable++)
 		{
-			if (0 == (gl_uint32_tick_counter % ptr_str_arr_task[uint8_looping_variable]->uint16_task_periodicity))
+			if (0 == (gl_uint32_tick_counter % gl_arr_ptr_str_task[uint8_looping_variable]->uint16_task_periodicity))
 			{
-				if (NULL_PTR != ptr_str_arr_task[uint8_looping_variable]->ptr_func_task)
+				if (NULL_PTR != gl_arr_ptr_str_task[uint8_looping_variable]->ptr_func_task)
 				{
-					ptr_str_arr_task[uint8_looping_variable]->ptr_func_task();
+					gl_arr_ptr_str_task[uint8_looping_variable]->ptr_func_task();
 				}
 				else
 				{
@@ -925,4 +925,71 @@ static void	sos_sys_tick_task	(void)
 {
 	gl_uint32_tick_counter++;
 	gl_enu_sos_scheduler_state = SOS_SCHEDULER_READY;
+}
+
+
+/**
+ * @author                              :   Hossam Elwahsh
+ *
+ * @brief                               :   Generates a new unique ID for SOS task
+ *
+ * @param[out]  uint8_new_task_id       :   Generated task ID
+ * @return  SOS_STATUS_SUCCESS          :   Task ID generated successfully
+ *          SOS_STATUS_DATABASE_FULL    :   Failed to generate task ID, DB full, all unique IDs are in use
+ *          SOS_STATUS_INVALID_STATE    :   SOS Invalid State
+ */
+static enu_sos_status_t_    sos_generate_task_id(uint8_t_ * uint8_new_task_id)
+{
+    enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
+
+    // SOS System State Check
+    if(gl_enu_sos_scheduler_state == SOS_SCHEDULER_UNINITIALIZED)
+    {
+        enu_sos_status_retval = SOS_STATUS_INVALID_STATE;
+    }
+    else
+    {
+        /* generate a new task ID */
+
+        uint8_t_ uint8_generated = FALSE;       // generated flag
+
+        // IDs Maps
+        // 0(false): unused, 1(true): used
+        uint8_t_ uint8_ids_map[SOS_MAX_ID_NUMBER+1] = {FALSE};
+
+        // Calculate ids map DB O(n)
+        for (uint8_t_ i = 0; i < SOS_NUMBER_OF_TASKS; ++i) {
+            if(NULL_PTR == gl_arr_ptr_str_task[i])
+            {
+                // reached end of tasks
+                break;
+            }
+            else
+            {
+                uint8_ids_map[gl_arr_ptr_str_task[i]->uint8_task_id] = TRUE;
+            }
+        }
+
+        // Get first unused ID, worst case: O(n)
+        for (uint8_t_ id = 0; id <= SOS_MAX_ID_NUMBER; ++id) {
+            if(FALSE == uint8_ids_map[id])
+            {
+                *uint8_new_task_id = id;
+                uint8_generated = TRUE;
+                break;
+            }
+        }
+
+        if(FALSE == uint8_generated) // all possible ID numbers are in use == database is full
+        {
+            // DB Full
+            enu_sos_status_retval = SOS_STATUS_DATABASE_FULL;
+        }
+        else
+        {
+            /* Do Nothing */
+        }
+    }
+
+    return enu_sos_status_retval;
 }
