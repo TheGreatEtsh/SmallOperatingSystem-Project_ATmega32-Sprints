@@ -6,8 +6,8 @@
  */ 
 
 
-#ifndef sos_INTERFACE_H_
-#define sos_INTERFACE_H_
+#ifndef SOS_INTERFACE_H_
+#define SOS_INTERFACE_H_
 
 #include "std.h"
 #include "sos_preconfig.h"
@@ -17,7 +17,9 @@ typedef void(*ptr_func_task_t_)(void);
 
 typedef enum
 {
-	SOS_SCHEDULER_BLOCKED			= 0 ,
+	SOS_SCHEDULER_UNINITIALIZED		= 0 ,
+	SOS_SCHEDULER_INITIALIZED		    ,
+	SOS_SCHEDULER_BLOCKED		        ,
 	SOS_SCHEDULER_READY
 }enu_sos_scheduler_state_t_;
 
@@ -26,10 +28,10 @@ typedef enum
 	SOS_STATUS_SUCCESS				= 0	,
 	SOS_STATUS_FAILED					,
 	SOS_STATUS_INVALID_STATE			,
+	SOS_STATUS_INVALID_ARGS             ,
 	SOS_STATUS_INVALID_TASK_ID			,
 	SOS_STATUS_DATABASE_FULL			,
 	SOS_STATUS_TOTAL
-	
 }enu_sos_status_t_;
 
 
@@ -67,19 +69,19 @@ enu_sos_status_t_ sos_init(void);
 enu_sos_status_t_ sos_deinit(void);
 
 /**
- *	@syntax				:	sos_createTask(str_sos_task_t_* ptr_str_task);
- *	@description		:	Creates tasks and add them to the data base
+ *	@syntax				:	sos_create_task(str_sos_task_t_* ptr_str_task);
+ *	@description		:	Creates tasks and add them to the database
  *	@Sync\Async      	:	Synchronous
  *  @Reentrancy      	:	Reentrant
  *  @Parameters (in) 	:	*ptr_str_task
  *  @Parameters (out)	:	*ptr_str_task
- *  @Return value		:	sos_STATUS_SUCCESS in case of SUCCESS
- *							sos_STATUS_DATABASE_FULL in case of Database is full
+ *  @Return value		:	SOS_STATUS_SUCCESS in case of SUCCESS
+ *							SOS_STATUS_DATABASE_FULL in case of Database is full
  */
-enu_sos_status_t_ sos_createTask(str_sos_task_t_* ptr_str_task);
+enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task);
 
 /**
- *	@syntax				:	sos_deleteTask(uint8_t_ uint8_task_id);
+ *	@syntax				:	sos_delete_task(uint8_t_ uint8_task_id);
  *	@description		:	delete tasks from Database
  *	@Sync\Async      	:	Synchronous
  *  @Reentrancy      	:	Reentrant
@@ -88,11 +90,11 @@ enu_sos_status_t_ sos_createTask(str_sos_task_t_* ptr_str_task);
  *  @Return value		:	SOS_STATUS_SUCCESS in case of SUCCESS
  *							SOS_STATUS_TASK_NFOUND in case task is not found
  */
-enu_sos_status_t_ sos_deleteTask(uint8_t_ uint8_task_id);
+enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id);
 
 /**
- *	@syntax				:	sos_modify(str_sos_task_t_ str_task);
- *	@description		:	Modifies tasks and updates the  data base
+ *	@syntax				:	sos_modify_task(str_sos_task_t_ str_task);
+ *	@description		:	Modifies tasks and updates the  database
  *	@Sync\Async      	:	Synchronous
  *  @Reentrancy      	:	Reentrant
  *  @Parameters (in) 	:	str_task
@@ -100,7 +102,7 @@ enu_sos_status_t_ sos_deleteTask(uint8_t_ uint8_task_id);
  *  @Return value		:	SOS_STATUS_SUCCESS in case of SUCCESS
  *							SOS_STATUS_TASK_NFOUND in case task is not found
  */
-enu_sos_status_t_ sos_modify(str_sos_task_t_ str_task);
+enu_sos_status_t_ sos_modify_task(str_sos_task_t_ str_task);
 
 /**
  *	@syntax				:	sos_run(void);
@@ -115,7 +117,7 @@ enu_sos_status_t_ sos_modify(str_sos_task_t_ str_task);
 enu_sos_status_t_ sos_run(void);
 
 /**
- *	@syntax				:	sos_modify(str_sos_taskCreate_t_ str_task);
+ *	@syntax				:	sos_modify_task(str_sos_taskCreate_t_ str_task);
  *	@description		:	Stops the timer
  *	@Sync\Async      	:	Synchronous
  *  @Reentrancy      	:	Reentrant

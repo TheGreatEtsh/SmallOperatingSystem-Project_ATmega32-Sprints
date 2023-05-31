@@ -6,6 +6,7 @@ set(CMAKE_C_STANDARD 11)
 include_directories(ECUAL/led)
 include_directories(LIB)
 include_directories(MCAL/dio)
+include_directories(MCAL/timer)
 include_directories(SERV)
 include_directories(SERV/sos)
 
@@ -22,4 +23,9 @@ add_executable(SOS
         MCAL/dio/dio_program.c
         MCAL/exi/CFile1.c
         SERV/sos/sos_interface.h
-        main.c)
+        MCAL/timer/timer_program.c
+        MCAL/timer/timer_interface.h
+        MCAL/timer/timer_private.h
+        MCAL/timer/timer_cfg.c
+        MCAL/timer/timer_cfg.h
+        main.c SERV/sos/sos_program.c )

@@ -11,9 +11,10 @@
 #ifndef DIO_PRIVATE_H_
 #define DIO_PRIVATE_H_
 
-/* ***********************************************************************************************/
-/**           DIO PORTS Registers Locations              **/
-/* ***********************************************************************************************/
+/* LIB */
+#include "bit_math.h"
+
+/* ---------------------- DIO PORTS Registers Locations ---------------------- */
 
 /** PORT A **/
 #define DIO_U8_PORT_A_REG   *( ( volatile uint8_t_ * ) 0x3B )

@@ -12,7 +12,7 @@
 #define LED_H_
 
 /* MCAL */
-#include "../../MCAL/dio/dio_interface.h"
+#include "dio_interface.h"
 
 typedef enum EN_LED_ERROR_t
 {
