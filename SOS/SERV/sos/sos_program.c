@@ -934,9 +934,10 @@ static void	sos_sys_tick_task	(void)
  * @brief                               :   Generates a new unique ID for SOS task
  *
  * @param[out]  uint8_new_task_id       :   Generated task ID
- * @return  SOS_STATUS_SUCCESS          :   Task ID generated successfully
- *          SOS_STATUS_DATABASE_FULL    :   Failed to generate task ID, DB full, all unique IDs are in use
- *          SOS_STATUS_INVALID_STATE    :   SOS Invalid State
+ *
+ * @return  SOS_STATUS_SUCCESS          :   Success,    Task ID generated successfully
+ *          SOS_STATUS_DATABASE_FULL    :   Failed,     DB full, all unique IDs are in-use
+ *          SOS_STATUS_INVALID_STATE    :   Failed,     SOS Invalid State (uninitialized)
  */
 static enu_sos_status_t_    sos_generate_task_id(uint8_t_ * uint8_new_task_id)
 {
