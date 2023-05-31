@@ -256,9 +256,10 @@ enu_sos_status_t_ sos_deinit(void)
  *	@brief		                            :	Generates a new task ID, add the requested task parameters to the database
  *  @param[in,out]  ptr_str_task 	        :   Pointer to task structure
  *
- *  @Return     SOS_STATUS_SUCCESS		    :	in case of Success
- *              SOS_STATUS_INVALID_STATE    :   SOS Invalid State (uninitialized)
- *              SOS_STATUS_DATABASE_FULL    :   Failed to add new task, Database is full
+ *  @Return     SOS_STATUS_SUCCESS		    :	Success,    Task created successfully
+ *              SOS_STATUS_INVALID_STATE    :   Failed,     SOS Invalid State (uninitialized)
+ *              SOS_STATUS_INVALID_ARGS     :   Failed,     Invalid Arguments Given
+ *              SOS_STATUS_DATABASE_FULL    :   Failed,     Database is full
  */
 enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task)
 {//Line 264
@@ -416,7 +417,6 @@ enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
     }
 
     return enu_sos_status_retval;
-
 
 
 
