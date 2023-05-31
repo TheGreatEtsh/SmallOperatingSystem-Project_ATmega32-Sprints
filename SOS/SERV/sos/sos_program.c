@@ -615,64 +615,64 @@ enu_sos_status_t_ sos_modify(str_sos_task_t_ str_task)
 
 }//Line 616
 
-static enu_sos_status_t_	sos_search_task		(uint8_t_ uint8_task_id,str_sos_task_t_* ptr_str_sos_task)
-{//line 619
+/**
+ *	@author				                    :	Hossam Elwahsh - https://github.com/HossamElwahsh
+ *
+ *	@brief		                            :	Finds a task in DB using it's ID
+ *  @param[in]      uint8_task_id 	        :   Task ID to search for
+ *  @param[out]     ptr_str_task 	        :   Pointer to store found task
+ *
+ *  @Return     SOS_STATUS_SUCCESS		    :	Success,    Task found
+ *              SOS_STATUS_INVALID_STATE    :   Failed,     SOS Invalid State (uninitialized)
+ *              SOS_STATUS_INVALID_TASK_ID  :   Failed,     Task ID not found in DB
+ */
+static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_* ptr_str_sos_task)
+{
+    enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
 
+    // SOS System State Check
+    if(gl_enu_sos_scheduler_state == SOS_SCHEDULER_UNINITIALIZED)
+    {
+        enu_sos_status_retval = SOS_STATUS_INVALID_STATE;
+    }
+    // Arguments check
+    else if(NULL_PTR == ptr_str_sos_task)
+    {
+        enu_sos_status_retval = SOS_STATUS_INVALID_ARGS;
+    }
+    else
+    {
+        /* search for task ID in DB */
 
+        uint8_t_ bool_found = FALSE;        // task found flag
 
+        for (uint8_t_ i = 0; i < SOS_NUMBER_OF_TASKS; ++i) {
+            if(uint8_task_id == gl_arr_ptr_str_task[i]->uint8_task_id)
+            {
+                bool_found = TRUE;
+                ptr_str_sos_task = gl_arr_ptr_str_task[i]; // save found task pointer
+                break;
+            }
+            else
+            {
+                /* Do Nothing */
+            }
+        }
 
+        if(TRUE == bool_found)
+        {
+            /* Task Found */
+            enu_sos_status_retval = SOS_STATUS_SUCCESS;
+        }
+        else
+        {
+            /* Task not found */
+            enu_sos_status_retval = SOS_STATUS_INVALID_TASK_ID;
+        }
 
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return enu_sos_status_retval;
 
 
 
