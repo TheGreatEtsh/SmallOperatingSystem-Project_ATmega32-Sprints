@@ -359,13 +359,13 @@ enu_sos_status_t_ sos_createTask(str_sos_task_t_* ptr_str_task)
 	
 	
 	
-	
-	
+
+
 	
 }//Line 365
 
 /**
- *	@syntax				:	sos_deleteTask(uint8_t_ uint8_task_id);
+ *	@syntax				:	sos_delete_task(uint8_t_ uint8_task_id);
  *	@description		:	delete tasks from Database
  *	@Sync\Async      	:	Synchronous
  *  @Reentrancy      	:	Reentrant
@@ -374,7 +374,7 @@ enu_sos_status_t_ sos_createTask(str_sos_task_t_* ptr_str_task)
  *  @Return value		:	SOS_STATUS_SUCCESS in case of SUCCESS
  *							SOS_STATUS_TASK_NFOUND in case task is not found
  */
-enu_sos_status_t_ sos_deleteTask(uint8_t_ uint8_task_id)
+enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
 {//Line 378
 
 
@@ -501,7 +501,7 @@ enu_sos_status_t_ sos_deleteTask(uint8_t_ uint8_task_id)
 
 /**
  *	@syntax				:	sos_modify(str_sos_task_t_ str_task);
- *	@description		:	Modifies tasks and updates the  data base
+ *	@description		:	Modifies tasks and updates the  database
  *	@Sync\Async      	:	Synchronous
  *  @Reentrancy      	:	Reentrant
  *  @Parameters (in) 	:	str_task
@@ -917,7 +917,7 @@ static void	sos_system_scheduler(void)
 	}
 	else
 	{
-		/*DATA BASE IS EMPTY*/
+		/*DATABASE IS EMPTY*/
 	}
 }
 
