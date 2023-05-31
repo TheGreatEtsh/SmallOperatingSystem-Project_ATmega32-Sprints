@@ -17,8 +17,8 @@ static void					sos_sys_tick_task	(void);
 static enu_sos_status_t_    sos_generate_task_id(uint8_t_ * uint8_new_task_id);
 
 /* Hyper-period Calculations */
-static int gcd(int a, int b);
-static int lcm(int a, int b);
-static int hyper_period(int n);
+static uint32_t_			gcd						(uint32_t_ uint32_first_var, uint32_t_ uint32_second_variable);
+static uint32_t_			lcm						(uint32_t_ uint32_first_var, uint32_t_ uint32_second_variable);
+static void					calculate_hyper_period	(uint32_t_* ptr_uint32_hyper_period);
 
 #endif /* SOS_PRIVATE_H_ */

@@ -896,9 +896,13 @@ enu_sos_status_t_ sos_disable(void)
 
 static void	sos_system_scheduler(void)
 {
+	uint32_t_ uint32_hyper_period = 0;
+	uint8_t_ uint8_looping_variable;
+	
 	if (0 != gl_uint8_number_of_tasks_added)	
 	{	
-		uint8_t_ uint8_looping_variable;
+		calculate_hyper_period(&uint32_hyper_period);
+		
 		for (uint8_looping_variable = 0; uint8_looping_variable < gl_uint8_number_of_tasks_added; uint8_looping_variable++)
 		{
 			if (0 == (gl_uint32_tick_counter % gl_arr_ptr_str_task[uint8_looping_variable]->uint16_task_periodicity))
@@ -917,7 +921,17 @@ static void	sos_system_scheduler(void)
 				/*TASK IS NOT READY*/
 			}
 		}
+		
 		gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
+		
+		if (uint32_hyper_period == gl_uint32_tick_counter)
+		{
+			gl_uint32_tick_counter = 0;
+		}
+		else
+		{
+			/*SCHEDULER HAVEN'T REACH TO HYPER PERIOD YET*/
+		}
 	}
 	else
 	{
@@ -1000,22 +1014,34 @@ static enu_sos_status_t_    sos_generate_task_id(uint8_t_ * uint8_new_task_id)
 }
 
 
-static int gcd(int a, int b) {
-    while (b != 0) {
-        int temp = b;
-        b = a % b;
-        a = temp;
+static uint32_t_ gcd(uint32_t_ uint32_first_var, uint32_t_ uint32_second_variable) 
+{
+	uint32_t_ uint32_gcd_value = 0, uint32_temp;
+    while (uint32_second_variable != 0) 
+	{
+        uint32_temp = uint32_second_variable;
+        uint32_second_variable = uint32_first_var % uint32_second_variable;
+        uint32_first_var = uint32_temp;
     }
-    return a;
+	uint32_gcd_value = uint32_first_var;
+    return uint32_first_var;
 }
 
-static int lcm(int a, int b) {
-    return (a * b) / gcd(a, b);
+static uint32_t_ lcm(uint32_t_ uint32_first_var, uint32_t_ uint32_second_variable) 
+{
+	uint32_t_ uint32_lcm_return_value = 0;
+	uint32_t_ uint32_gcd_value = 0;
+	uint32_gcd_value = gcd(uint32_first_var, uint32_second_variable);
+    uint32_lcm_return_value = (uint32_first_var * uint32_second_variable) / uint32_gcd_value;
+	return uint32_lcm_return_value;
 }
 
-static int hyper_period(int n) {
-//    int hp = tasks[0];
-//    for (int i = 1; i < n; i++)
-//        hp = lcm(hp, tasks[i]);
-//    return hp;
+static void calculate_hyper_period(uint32_t_* ptr_uint32_hyper_period) 
+{
+	uint8_t_ uint8_looping_variable = 0;
+	*ptr_uint32_hyper_period = gl_arr_ptr_str_task[0]->uint16_task_periodicity;
+	for (; uint8_looping_variable < gl_uint8_number_of_tasks_added; uint8_looping_variable++)
+	{
+		*ptr_uint32_hyper_period = lcm(*ptr_uint32_hyper_period, gl_arr_ptr_str_task[uint8_looping_variable]->uint16_task_periodicity);
+	}
 }
