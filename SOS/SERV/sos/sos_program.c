@@ -340,7 +340,6 @@ enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task)
 
 
 
-
 	
 	
 	
@@ -408,9 +407,6 @@ enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
     }
 
     return enu_sos_status_retval;
-
-
-
 
 
 
@@ -673,6 +669,10 @@ static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_
     }
 
     return enu_sos_status_retval;
+
+
+
+
 
 
 
