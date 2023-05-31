@@ -397,6 +397,7 @@ enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
         {
             /* Task Found - Delete it */
             ptr_str_sos_task_to_delete = NULL_PTR;
+            sos_sort_database();
             enu_sos_status_retval = SOS_STATUS_SUCCESS;
         }
         else
@@ -539,7 +540,7 @@ enu_sos_status_t_ sos_modify(str_sos_task_t_ str_task)
             ptr_str_sos_task_to_delete->uint8_task_priority     = str_task.uint8_task_priority;
             ptr_str_sos_task_to_delete->uint16_task_periodicity = str_task.uint16_task_periodicity;
             ptr_str_sos_task_to_delete->ptr_func_task           = str_task.ptr_func_task;
-
+            sos_sort_database();
             enu_sos_status_retval = SOS_STATUS_SUCCESS;
         }
         else
@@ -550,6 +551,9 @@ enu_sos_status_t_ sos_modify(str_sos_task_t_ str_task)
     }
 
     return enu_sos_status_retval;
+
+
+
 
 
 
