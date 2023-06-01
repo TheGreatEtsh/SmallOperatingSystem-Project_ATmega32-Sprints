@@ -63,38 +63,37 @@ enu_sos_status_t_ sos_init(void)
 }
 
 /**
- *	@syntax				:	sos_deinit(void);
+ *
  *	@description		:	deinitializes the sos module
  *	@Sync\Async      	:	Synchronous
  *  @Reentrancy      	:	Reentrant
  *  @Parameters (in) 	:	None
  *  @Parameters (out)	:	None
- *  @Return value		:	SOS_STATUS_SUCCESS in case timers doesn't return an error
- *							SOS_STATUS_INVALID_STATE in case timers return an error
+ *
+ *
  */
 enu_sos_status_t_ sos_deinit(void)
-{//Line138
+{
 
     enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
 
-    if (timer_pause(TIMER_0)==TIMER_NOK)
+    if (
+            (timer_pause(TIMER_0) == TIMER_NOK) ||
+            (timer_disable_interrupt(TIMER_0) == TIMER_NOK)
+        )
     {
-        enu_sos_status_retval = SOS_STATUS_FAILED;
-    }
-    else
-    {//SUCCESS
+        return SOS_STATUS_FAILED;
     }
 
 
-    if (timer_disable_interrupt(TIMER_0)==TIMER_NOK)
-    { enu_sos_status_retval = SOS_STATUS_FAILED;
-    }
-    else
-    {//SUCCESS
-    }
 
 
-    if(0 != gl_uint8_number_of_tasks_added)
+
+
+
+
+
+    else if(0 != gl_uint8_number_of_tasks_added)
     {
         for (int i = 0; i < gl_uint8_number_of_tasks_added; ++i) {
             gl_arr_ptr_str_task[i] = NULL_PTR;
@@ -102,7 +101,7 @@ enu_sos_status_t_ sos_deinit(void)
     }
     gl_enu_sos_scheduler_state = SOS_SCHEDULER_UNINITIALIZED;
 
-    return enu_sos_status_retval;
+    return SOS_STATUS_SUCCESS;
 
 }// Line 251
 
@@ -433,27 +432,22 @@ static void	sos_sort_database (uint8_t_ uint8_task_db_index)
  *  @Return value		:	SOS_STATUS_SUCCESS in case of SUCCESS
  *							SOS_STATUS_INVALID_STATE in case timers return an error
  */
-enu_sos_status_t_ sos_run(void)
+void sos_run(void)
 {
     enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
 
-    if(gl_enu_sos_scheduler_state != SOS_SCHEDULER_INITIALIZED)
+    if(
+            (gl_enu_sos_scheduler_state != SOS_SCHEDULER_INITIALIZED) ||
+            (TIMER_NOK == timer_resume(TIMER_0))
+    )
     {
-        enu_return_value = SOS_STATUS_INVALID_STATE;
-    }
-    else if(TIMER_NOK == timer_resume(TIMER_0))
-    {
-        enu_return_value = SOS_STATUS_FAILED;
+        return;
     }
     else
     {
-        /*SOS_STATUS_SUCCESS*/
-    }
-    if (SOS_STATUS_SUCCESS == enu_return_value)
-    {
-		gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
+        gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
         while((gl_enu_sos_scheduler_state == SOS_SCHEDULER_BLOCKED)
-			|| (gl_enu_sos_scheduler_state == SOS_SCHEDULER_READY))
+              || (gl_enu_sos_scheduler_state == SOS_SCHEDULER_READY))
         {
             if (SOS_SCHEDULER_READY == gl_enu_sos_scheduler_state)
             {
@@ -461,7 +455,8 @@ enu_sos_status_t_ sos_run(void)
             }
         }
     }
-    return enu_return_value;
+
+
 }
 
 /**
@@ -474,26 +469,23 @@ enu_sos_status_t_ sos_run(void)
  *  @Return value		:	SOS_STATUS_SUCCESS in case of SUCCESS
  *							SOS_STATUS_INVALID_STATE in case timers return an error
  */
-enu_sos_status_t_ sos_disable(void)
+void sos_disable(void)
 {
     enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
 
     if(
-            gl_enu_sos_scheduler_state == SOS_SCHEDULER_UNINITIALIZED
+            (gl_enu_sos_scheduler_state == SOS_SCHEDULER_UNINITIALIZED) ||
+            (TIMER_NOK == timer_pause(TIMER_0))
     )
     {
-        enu_return_value = SOS_STATUS_INVALID_STATE;
-    }
-    else if(TIMER_NOK == timer_pause(TIMER_0))
-    {
-        enu_return_value = SOS_STATUS_FAILED;
+        return;
     }
     else
     {
-        /*SOS_STATUS_SUCCESS*/
+        /* Success */
 		gl_enu_sos_scheduler_state = SOS_SCHEDULER_INITIALIZED;
     }
-    return enu_return_value;
+
 }
 
 static void	sos_system_scheduler(void)

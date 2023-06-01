@@ -55,9 +55,9 @@ enu_sos_status_t_ sos_init(void);
  *  @Reentrancy      	:	Reentrant
  *  @Parameters (in) 	:	None
  *  @Parameters (out)	:	None
- *  @Return value		:	SOS_STATUS_SUCCESS in case timers doesn't return an error
- *							SOS_STATUS_INVALID_STATE in case timers return an error
- */ 
+ *
+ *
+ */
 enu_sos_status_t_ sos_deinit(void);
 
 /**
@@ -106,7 +106,7 @@ enu_sos_status_t_ sos_modify_task(uint8_t_ uint8_task_id);
  *  @Return value		:	SOS_STATUS_SUCCESS in case of SUCCESS
  *							SOS_STATUS_INVALID_STATE in case timers return an error
  */
-enu_sos_status_t_ sos_run(void);
+void sos_run(void);
 
 /**
  *	@syntax				:	sos_modify_task(str_sos_taskCreate_t_ str_task);
@@ -118,7 +118,7 @@ enu_sos_status_t_ sos_run(void);
  *  @Return value		:	SOS_STATUS_SUCCESS in case of SUCCESS
  *							SOS_STATUS_INVALID_STATE in case timers return an error
  */
-enu_sos_status_t_ sos_disable(void);
+void sos_disable(void);
 
 
 
