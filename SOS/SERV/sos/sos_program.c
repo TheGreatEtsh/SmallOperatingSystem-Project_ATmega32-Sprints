@@ -107,6 +107,8 @@ enu_sos_status_t_ sos_init(void)
 	
 	
 	
+
+return enu_sos_status_retval;	
 	
 	
 	
@@ -140,8 +142,6 @@ enu_sos_status_t_ sos_init(void)
 	
 	
 	
-	
-	return enu_sos_status_retval;
 	
 }//Line 125
 
@@ -237,6 +237,7 @@ enu_sos_status_t_ sos_deinit(void)
 	
 	
 	
+	return enu_sos_status_retval;	
 	
 	
 	
@@ -277,8 +278,7 @@ enu_sos_status_t_ sos_deinit(void)
 	
 	
 	
-	
-return enu_sos_status_retval;	
+
 	
 }// Line 251
 
