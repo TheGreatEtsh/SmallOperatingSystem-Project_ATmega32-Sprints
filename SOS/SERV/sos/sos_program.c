@@ -429,6 +429,10 @@ enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
         {
             /* Task Found - Delete it */
             ptr_str_sos_task_to_delete = NULL_PTR;
+            if(0 != gl_uint8_number_of_tasks_added)
+            {
+                gl_uint8_number_of_tasks_added--;
+            }
             sos_sort_database();
             enu_sos_status_retval = SOS_STATUS_SUCCESS;
         }
