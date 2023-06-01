@@ -405,27 +405,22 @@ static void					sos_sort_database	(uint8_t_ uint8_task_db_index)
  *  @Return value		:	SOS_STATUS_SUCCESS in case of SUCCESS
  *							SOS_STATUS_INVALID_STATE in case timers return an error
  */
-enu_sos_status_t_ sos_run(void)
+void sos_run(void)
 {
     enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
 
-    if(gl_enu_sos_scheduler_state != SOS_SCHEDULER_INITIALIZED)
+    if(
+            (gl_enu_sos_scheduler_state != SOS_SCHEDULER_INITIALIZED) ||
+            (TIMER_NOK == timer_resume(TIMER_0))
+    )
     {
-        enu_return_value = SOS_STATUS_INVALID_STATE;
-    }
-    else if(TIMER_NOK == timer_resume(TIMER_0))
-    {
-        enu_return_value = SOS_STATUS_FAILED;
+        return;
     }
     else
     {
-        /*SOS_STATUS_SUCCESS*/
-    }
-    if (SOS_STATUS_SUCCESS == enu_return_value)
-    {
-		gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
+        gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
         while((gl_enu_sos_scheduler_state == SOS_SCHEDULER_BLOCKED)
-			|| (gl_enu_sos_scheduler_state == SOS_SCHEDULER_READY))
+              || (gl_enu_sos_scheduler_state == SOS_SCHEDULER_READY))
         {
             if (SOS_SCHEDULER_READY == gl_enu_sos_scheduler_state)
             {
@@ -433,7 +428,8 @@ enu_sos_status_t_ sos_run(void)
             }
         }
     }
-    return enu_return_value;
+
+
 }
 
 /**
