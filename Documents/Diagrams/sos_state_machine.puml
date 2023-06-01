@@ -1,0 +1,50 @@
+@startuml
+'https://plantuml.com/class-diagram
+'Author: Hossam Elwahsh
+
+!theme aws-orange
+'!theme black-knight
+'!theme blueprint
+'!theme carbon-gray
+'!theme cloudscape-design
+'!theme spacelab
+'skinparam ArrowFontColor #217CA3
+skinparam ArrowFontStyle bold
+skinparam StateAttributeFontStyle bold
+skinparam StateAttributeFontColor white
+
+skinparam classAttributeFontSize 16
+skinparam classFontSize 18
+hide empty description
+
+[*] --> SOS_UNINITIALIZED
+
+state INITIALIZED_GROUP{
+    SOS_UNINITIALIZED -[#lightgreen]-> SOS_SCHEDULER_INITIALIZED : //**sos_init()**//
+
+
+    state SOS_SUPER_LOOP {
+        SOS_SCHEDULER_INITIALIZED -[#lightgreen]-> SOS_SCHEDULER_BLOCKED : //**sos_run()**//
+'        SOS_SCHEDULER_INITIALIZED : * wait for run command //sos_run()//
+
+        SOS_SCHEDULER_READY -[#lightgreen]-> SOS_SCHEDULER_BLOCKED : SOS iteration executed
+        SOS_SCHEDULER_BLOCKED -[#217CA3]-> SOS_SCHEDULER_READY : SOS TICK (timer ISR callback)
+
+
+        SOS_SCHEDULER_READY: * execute tasks (prioritized)
+        SOS_SCHEDULER_READY: * decrement/reset tasks delays
+
+        SOS_SCHEDULER_BLOCKED : * wait for next tick
+    }
+
+    SOS_SUPER_LOOP -[#red]-> SOS_SCHEDULER_INITIALIZED : //**sos_disable()**//
+
+}
+
+INITIALIZED_GROUP -[#red]-> SOS_UNINITIALIZED : //**sos_deinit()**//
+INITIALIZED_GROUP -[#salmon]-> [*] : **FAILED**
+'SOS_DE_INITIALIZED -down-> [*]
+'SOS_DE_INITIALIZED : * Stop SOS if started
+'SOS_DE_INITIALIZED : * de-initialize SOS
+
+@enduml
