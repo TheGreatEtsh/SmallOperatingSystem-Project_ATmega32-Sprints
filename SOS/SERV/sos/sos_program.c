@@ -74,9 +74,6 @@ enu_sos_status_t_ sos_init(void)
  */
 enu_sos_status_t_ sos_deinit(void)
 {
-
-    enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
-
     if (
             (timer_pause(TIMER_0) == TIMER_NOK) ||
             (timer_disable_interrupt(TIMER_0) == TIMER_NOK)
@@ -84,14 +81,6 @@ enu_sos_status_t_ sos_deinit(void)
     {
         return SOS_STATUS_FAILED;
     }
-
-
-
-
-
-
-
-
 
     else if(0 != gl_uint8_number_of_tasks_added)
     {
@@ -103,7 +92,7 @@ enu_sos_status_t_ sos_deinit(void)
 
     return SOS_STATUS_SUCCESS;
 
-}// Line 251
+}
 
 /**
  *	@author				                    :	Hossam Elwahsh - https://github.com/HossamElwahsh
@@ -434,8 +423,6 @@ static void	sos_sort_database (uint8_t_ uint8_task_db_index)
  */
 void sos_run(void)
 {
-    enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
-
     if(
             (gl_enu_sos_scheduler_state != SOS_SCHEDULER_INITIALIZED) ||
             (TIMER_NOK == timer_resume(TIMER_0))
@@ -471,8 +458,6 @@ void sos_run(void)
  */
 void sos_disable(void)
 {
-    enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
-
     if(
             (gl_enu_sos_scheduler_state == SOS_SCHEDULER_UNINITIALIZED) ||
             (TIMER_NOK == timer_pause(TIMER_0))
