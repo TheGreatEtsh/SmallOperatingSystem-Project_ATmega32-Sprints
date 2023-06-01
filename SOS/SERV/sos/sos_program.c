@@ -442,26 +442,23 @@ void sos_run(void)
  *  @Return value		:	SOS_STATUS_SUCCESS in case of SUCCESS
  *							SOS_STATUS_INVALID_STATE in case timers return an error
  */
-enu_sos_status_t_ sos_disable(void)
+void sos_disable(void)
 {
     enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
 
     if(
-            gl_enu_sos_scheduler_state == SOS_SCHEDULER_UNINITIALIZED
+            (gl_enu_sos_scheduler_state == SOS_SCHEDULER_UNINITIALIZED) ||
+            (TIMER_NOK == timer_pause(TIMER_0))
     )
     {
-        enu_return_value = SOS_STATUS_INVALID_STATE;
-    }
-    else if(TIMER_NOK == timer_pause(TIMER_0))
-    {
-        enu_return_value = SOS_STATUS_FAILED;
+        return;
     }
     else
     {
-        /*SOS_STATUS_SUCCESS*/
+        /* Success */
 		gl_enu_sos_scheduler_state = SOS_SCHEDULER_INITIALIZED;
     }
-    return enu_return_value;
+
 }
 
 static void	sos_system_scheduler(void)

@@ -118,7 +118,7 @@ void sos_run(void);
  *  @Return value		:	SOS_STATUS_SUCCESS in case of SUCCESS
  *							SOS_STATUS_INVALID_STATE in case timers return an error
  */
-enu_sos_status_t_ sos_disable(void);
+void sos_disable(void);
 
 
 
