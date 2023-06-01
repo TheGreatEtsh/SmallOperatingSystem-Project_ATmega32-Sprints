@@ -219,14 +219,14 @@ enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
  *	@author				                    :	Hossam Elwahsh - https://github.com/HossamElwahsh
  *
  *	@brief		                            :	Modifies a task
- *  @param[in]  str_task 	                :   Task Data
+ *  @param[in,out]  uint8_task_id 	        :   Task ID to delete from DB
  *
  *  @Return     SOS_STATUS_SUCCESS		    :	Success,    Task deleted successfully
  *              SOS_STATUS_INVALID_STATE    :   Failed,     SOS Invalid State (uninitialized)
  *              SOS_STATUS_INVALID_ARGS     :   Failed,     Invalid Arguments Given
  *              SOS_STATUS_INVALID_TASK_ID  :   Failed,     Task ID not found in DB
  */
-enu_sos_status_t_ sos_modify_task(str_sos_task_t_ str_task)
+enu_sos_status_t_ sos_modify_task(uint8_t_ uint8_task_id)
 {
     enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
 
@@ -235,28 +235,15 @@ enu_sos_status_t_ sos_modify_task(str_sos_task_t_ str_task)
     {
         enu_sos_status_retval = SOS_STATUS_INVALID_STATE;
     }
-        // Arguments check
-    else if(
-            (NULL_PTR == str_task.ptr_func_task) ||
-            (0 == str_task.uint16_task_periodicity)
-            )
-    {
-        enu_sos_status_retval = SOS_STATUS_INVALID_ARGS;
-    }
     else
     {
         // search for task ID in DB
         str_sos_task_t_ * ptr_str_sos_task_to_delete = NULL;
         uint8_t_ uint8_task_index_in_db = 0;
-        enu_sos_status_retval = sos_find_task(str_task.uint8_task_id, &ptr_str_sos_task_to_delete, &uint8_task_index_in_db);
+        enu_sos_status_retval = sos_find_task(uint8_task_id, &ptr_str_sos_task_to_delete, &uint8_task_index_in_db);
 
         if(SOS_STATUS_SUCCESS == enu_sos_status_retval) // task found
         {
-            /* DB Task Ptr Found - Modify it */
-
-            ptr_str_sos_task_to_delete->uint8_task_priority     = str_task.uint8_task_priority;
-            ptr_str_sos_task_to_delete->uint16_task_periodicity = str_task.uint16_task_periodicity;
-            ptr_str_sos_task_to_delete->ptr_func_task           = str_task.ptr_func_task;
             sos_sort_database(uint8_task_index_in_db); // sort modified task
             enu_sos_status_retval = SOS_STATUS_SUCCESS;
         }
