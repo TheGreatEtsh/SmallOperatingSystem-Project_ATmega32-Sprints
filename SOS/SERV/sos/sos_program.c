@@ -897,7 +897,9 @@ enu_sos_status_t_ sos_run(void)
     }
     if (SOS_STATUS_SUCCESS == enu_return_value)
     {
-        while(1)
+		gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
+        while((gl_enu_sos_scheduler_state == SOS_SCHEDULER_BLOCKED)
+			|| (gl_enu_sos_scheduler_state == SOS_SCHEDULER_READY))
         {
             if (SOS_SCHEDULER_READY == gl_enu_sos_scheduler_state)
             {
@@ -929,6 +931,7 @@ enu_sos_status_t_ sos_disable(void)
     else
     {
         /*SOS_STATUS_SUCCESS*/
+		gl_enu_sos_scheduler_state = SOS_SCHEDULER_INITIALIZED;
     }
     return enu_return_value;
 }

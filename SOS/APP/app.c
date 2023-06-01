@@ -68,7 +68,7 @@ void app_init(void)
 	if(lo_enu_btn_status != BTN_STATUS_OK) {return;}
 	
 	/* Initialize the SOS */
-	enu_btn_status_code_t_ lo_enu_sos_status = sos_init();
+	enu_sos_status_t_ lo_enu_sos_status = sos_init();
 	
 	if(lo_enu_sos_status != SOS_STATUS_SUCCESS) {return;}
 	
@@ -114,7 +114,7 @@ void app_start(void)
 		if(gl_enu_start_btn_state == BTN_STATE_PRESSED)
 		{
 			/* Reset button state */
-			gl_enu_start_btn_state == BTN_STATE_NOT_PRESSED;
+			gl_enu_start_btn_state = BTN_STATE_NOT_PRESSED;
 			
 			/* Run the operating system */
 			sos_run();
