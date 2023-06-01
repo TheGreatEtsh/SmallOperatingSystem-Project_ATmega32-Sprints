@@ -20,41 +20,47 @@ enu_sos_scheduler_state_t_	gl_enu_sos_scheduler_state = SOS_SCHEDULER_UNINITIALI
 *							SOS_STATUS_INVALID_STATE in case timers return an error
 */
 enu_sos_status_t_ sos_init(void)
-{//Line23
-    enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
+{
     if (timer_init(  )==TIMER_NOK)
-    {enu_sos_status_retval = SOS_STATUS_FAILED;
+    {
+		return SOS_STATUS_FAILED;
     }
     else
-    {//SUCCESS
+    {
+		//SUCCESS
     }
-
 
     if (timer_set_time(TIMER_0, SOS_SYS_TICK_TIME_MS)==TIMER_NOK)
     {
-        enu_sos_status_retval = SOS_STATUS_FAILED;
+        return SOS_STATUS_FAILED;
     }
     else
-    {//SUCCESS
+    {
+		//SUCCESS
     }
 
     if (timer_enable_interrupt(TIMER_0)==TIMER_NOK)
-    {enu_sos_status_retval = SOS_STATUS_FAILED;
+    {
+		return SOS_STATUS_FAILED;
     }
     else
-    {//SUCCESS
+    {
+		//SUCCESS
     }
+	
     if (timer_set_callback(TIMER_0,sos_sys_tick_task)== TIMER_NOK)
-    {enu_sos_status_retval = SOS_STATUS_FAILED;
+    {
+		return SOS_STATUS_FAILED;
     }
     else
-    {//SUCCESS
+    {
+		//SUCCESS
     }
 
     gl_enu_sos_scheduler_state = SOS_SCHEDULER_INITIALIZED;
 
-    return enu_sos_status_retval;
-}//Line 125
+    return SOS_STATUS_SUCCESS;
+}
 
 /**
  *	@syntax				:	sos_deinit(void);
@@ -330,13 +336,15 @@ static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_
 
 /**
  * @brief a private function to sort the task data base according to task
- *		  priority after each modification to the Data base
+ *		  priority after each modification to the Data base 
+ *
+ * @param uint8_task_db_index : the index of the add/deleted/modified task
+ *								in the task DB
  *
  * @return
  */
-static void					sos_sort_database	(uint8_t_ uint8_task_db_index)
-{//Line773
-
+static void	sos_sort_database (uint8_t_ uint8_task_db_index)
+{
 	str_sos_task_t_* lo_ptr_str_temp_task;
 
 	/* Check if a task was deleted */
@@ -350,10 +358,13 @@ static void					sos_sort_database	(uint8_t_ uint8_task_db_index)
 			uint8_task_db_index++;
 		}
 	}
-	/* Check if a task was added */
+	/* Check if a task was added (any new task is added after the last task in the array) */
 	else if(gl_uint8_number_of_tasks_added-1 == uint8_task_db_index)
 	{
+		/* return if in case this is the first task in the DB */
 		if (!uint8_task_db_index) return;
+		
+		/* loop on previous tasks to insert new task in the right index according to priority */
 		while(gl_arr_ptr_str_task[uint8_task_db_index]->uint8_task_priority 
 			< gl_arr_ptr_str_task[uint8_task_db_index-1]->uint8_task_priority)
 			{
@@ -362,6 +373,8 @@ static void					sos_sort_database	(uint8_t_ uint8_task_db_index)
 				gl_arr_ptr_str_task[uint8_task_db_index] = gl_arr_ptr_str_task[uint8_task_db_index-1];
 				gl_arr_ptr_str_task[uint8_task_db_index-1] = lo_ptr_str_temp_task;
 				uint8_task_db_index --;
+				
+				/* Break out of loop if we reach the first index in DB */
 				if(0 == uint8_task_db_index) break;
 			}
 	}
@@ -369,8 +382,15 @@ static void					sos_sort_database	(uint8_t_ uint8_task_db_index)
 	{
 		uint8_t_ lo_uint8_temp_index = uint8_task_db_index;
 		
+		/* Check that the modified task is not the first in the DB */
 		if(uint8_task_db_index)
 		{
+			/* 
+			Check whether the priority of the task of the given index is smaller than
+			that of the task at the previous index, if so, loop on the previous tasks
+			to insert the modified task at the right index according to task priority
+			*/
+			
 			while(gl_arr_ptr_str_task[lo_uint8_temp_index]->uint8_task_priority
 			< gl_arr_ptr_str_task[lo_uint8_temp_index-1]->uint8_task_priority)
 			{
@@ -383,10 +403,17 @@ static void					sos_sort_database	(uint8_t_ uint8_task_db_index)
 			}
 		}		
 		
+		/* 
+		Check whether the priority of the task of the given index is bigger than
+		that of the task at the next index, if so, loop on the previous tasks
+		to insert the modified task at the right index according to task priority
+		*/
 		while(gl_arr_ptr_str_task[uint8_task_db_index]->uint8_task_priority
 		> gl_arr_ptr_str_task[uint8_task_db_index+1]->uint8_task_priority)
 		{
+			/* Break out of loop if we reach the last task index */
 			if(uint8_task_db_index == gl_uint8_number_of_tasks_added-1) break;
+			
 			/* Swap the tasks */
 			lo_ptr_str_temp_task = gl_arr_ptr_str_task[uint8_task_db_index];
 			gl_arr_ptr_str_task[uint8_task_db_index] = gl_arr_ptr_str_task[uint8_task_db_index+1];
