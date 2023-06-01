@@ -7,7 +7,6 @@
 
 #include "interrupts.h"
 
-#include "exi_interface.h"
 #include "led_interface.h"
 #include "btn_interface.h"
 #include "sos_interface.h"
