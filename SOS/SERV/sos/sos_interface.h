@@ -57,8 +57,8 @@ enu_sos_status_t_ sos_init(void);
  *  @Parameters (out)	:	None
  *
  *
- */ 
-void sos_deinit(void);
+ */
+enu_sos_status_t_ sos_deinit(void);
 
 /**
  *	@syntax				:	sos_create_task(str_sos_task_t_* ptr_str_task);

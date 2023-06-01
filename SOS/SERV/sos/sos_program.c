@@ -66,24 +66,23 @@ enu_sos_status_t_ sos_init(void)
  *
  *
  */
-void sos_deinit(void)
+enu_sos_status_t_ sos_deinit(void)
 {
 
     enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
 
-    if (timer_pause(TIMER_0)==TIMER_NOK)
+    if (
+            (timer_pause(TIMER_0) == TIMER_NOK) ||
+            (timer_disable_interrupt(TIMER_0) == TIMER_NOK)
+        )
     {
-        return;
+        return SOS_STATUS_FAILED;
     }
 
 
 
 
 
-    else if (timer_disable_interrupt(TIMER_0)==TIMER_NOK)
-    {
-        return;
-    }
 
 
 
@@ -96,7 +95,7 @@ void sos_deinit(void)
     }
     gl_enu_sos_scheduler_state = SOS_SCHEDULER_UNINITIALIZED;
 
-
+    return SOS_STATUS_SUCCESS;
 
 }// Line 251
 
