@@ -22,7 +22,14 @@
 #define APP_STOP_ENU_BTN_PIN		BTN_PIN_4
 
 
-void app_init(void);
+typedef enum
+{
+	APP_INIT_SUCCESS,
+	APP_INIT_FAILED
+}enu_app_init_status_t_;
+
+
+enu_app_init_status_t_ app_init(void);
 void app_start(void);
 
 #endif /* APP_H_ */

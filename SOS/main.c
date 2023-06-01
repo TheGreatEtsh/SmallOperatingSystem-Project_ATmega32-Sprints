@@ -9,7 +9,17 @@
 
 int main(void)
 {
-    app_init();
-	app_start();
+	enu_app_init_status_t_ enu_init_status;
+	
+    enu_init_status = app_init();
+	
+	if(APP_INIT_SUCCESS == enu_init_status)
+	{
+		app_start();
+	}
+	else
+	{
+		/* Do Nothing */
+	}
 }
 

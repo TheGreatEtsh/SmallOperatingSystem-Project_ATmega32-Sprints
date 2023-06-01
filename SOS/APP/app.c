@@ -29,7 +29,7 @@ static enu_btn_state_t_ gl_enu_start_btn_state = BTN_STATE_NOT_PRESSED;
 static enu_btn_state_t_ gl_enu_stop_btn_state = BTN_STATE_NOT_PRESSED;
 
 
-void app_init(void)
+enu_app_init_status_t_ app_init(void)
 {
 	
 	/* Initialize LEDs */
@@ -37,7 +37,7 @@ void app_init(void)
 	lo_enu_led_status = led_init(APP_LED_0_PORT, APP_LED_0_PIN);
 	lo_enu_led_status += led_init(APP_LED_1_PORT, APP_LED_1_PIN);
 	
-	if(lo_enu_led_status != LED_OK) {return;}
+	if(lo_enu_led_status != LED_OK) {return APP_INIT_FAILED;}
 	
 	/* Initialize push buttons */
 	gl_str_start_btn = (str_btn_config_t_)
@@ -64,12 +64,12 @@ void app_init(void)
 	lo_enu_btn_status += btn_set_notification(&gl_str_start_btn, app_start_btn);
 	lo_enu_btn_status += btn_init(&gl_str_stop_btn);
 	
-	if(lo_enu_btn_status != BTN_STATUS_OK) {return;}
+	if(lo_enu_btn_status != BTN_STATUS_OK) {return APP_INIT_FAILED;}
 	
 	/* Initialize the SOS */
 	enu_sos_status_t_ lo_enu_sos_status = sos_init();
 	
-	if(lo_enu_sos_status != SOS_STATUS_SUCCESS) {return;}
+	if(lo_enu_sos_status != SOS_STATUS_SUCCESS) {return APP_INIT_FAILED;}
 	
 	/* Create Tasks */
 	gl_str_led0_task = (str_sos_task_t_)
@@ -102,6 +102,8 @@ void app_init(void)
 	
 	/* Enable global interrupt */
 	sei();
+	
+	return APP_INIT_SUCCESS;
 }
 
 
