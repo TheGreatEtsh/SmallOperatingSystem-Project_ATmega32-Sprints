@@ -2,148 +2,147 @@
  * @fileName	:	sos_program.c
  * @Created		: 	2:08 AM Tuesday, May 30, 2023
  * @Author		: 	Hamsters
- * @brief		: 	Program file for Simple Operating System 
- */ 
+ * @brief		: 	Program file for Simple Operating System
+ */
 #include "sos_interface.h"
 #include "sos_private.h"
 static str_sos_task_t_*	gl_arr_ptr_str_task[SOS_NUMBER_OF_TASKS] = {NULL_PTR};
 uint32_t_ gl_uint32_tick_counter = 0; uint8_t_ gl_uint8_number_of_tasks_added = 0;
 enu_sos_scheduler_state_t_	gl_enu_sos_scheduler_state = SOS_SCHEDULER_UNINITIALIZED;
-	/**
- *	@syntax				:	sos_init(void);
- *	@description		:	Initializes the sos module
- *	@Sync\Async      	:	Synchronous
- *  @Reentrancy      	:	Reentrant
- *  @Parameters (in) 	:	None
- *  @Parameters (out)	:	None
- *  @Return value		:	SOS_STATUS_SUCCESS in case timers doesn't return an error
- *							SOS_STATUS_INVALID_STATE in case timers return an error
- */ 
+/**
+*	@syntax				:	sos_init(void);
+*	@description		:	Initializes the sos module
+*	@Sync\Async      	:	Synchronous
+*  @Reentrancy      	:	Reentrant
+*  @Parameters (in) 	:	None
+*  @Parameters (out)	:	None
+*  @Return value		:	SOS_STATUS_SUCCESS in case timers doesn't return an error
+*							SOS_STATUS_INVALID_STATE in case timers return an error
+*/
 enu_sos_status_t_ sos_init(void)
 {//Line23
-	enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
-	enu_sos_scheduler_state_t_ gl_enu_sos_scheduler_state = SOS_SCHEDULER_INITIALIZED;
-	if (TIMER_init(  )==TIMER_NOK)
-	{enu_sos_status_retval = SOS_STATUS_FAILED;
-	} 
-	else
-	{//SUCCESS
-	}
-	
-	
-	if (TIMER_setTime(TIMER_0, SOS_SYS_TICK_TIME_MS)==TIMER_NOK)
-	{
-		enu_sos_status_retval = SOS_STATUS_FAILED;
-	} 
-	else
-	{//SUCCESS
-	}
-	
-	if (TIMER_enableInterrupt(TIMER_0)==TIMER_NOK)
-	{enu_sos_status_retval = SOS_STATUS_FAILED;
-	} 
-	else
-	{//SUCCESS
-	}
-	if (TIMER_setCallBack(TIMER_0,sos_sys_tick_task)== TIMER_NOK)
-	{enu_sos_status_retval = SOS_STATUS_FAILED;
-	} 
-	else
-	{//SUCCESS
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+    enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
+    if (timer_init(  )==TIMER_NOK)
+    {enu_sos_status_retval = SOS_STATUS_FAILED;
+    }
+    else
+    {//SUCCESS
+    }
 
-return enu_sos_status_retval;	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+    if (timer_set_time(TIMER_0, SOS_SYS_TICK_TIME_MS)==TIMER_NOK)
+    {
+        enu_sos_status_retval = SOS_STATUS_FAILED;
+    }
+    else
+    {//SUCCESS
+    }
+
+    if (timer_enable_interrupt(TIMER_0)==TIMER_NOK)
+    {enu_sos_status_retval = SOS_STATUS_FAILED;
+    }
+    else
+    {//SUCCESS
+    }
+    if (timer_set_callback(TIMER_0,sos_sys_tick_task)== TIMER_NOK)
+    {enu_sos_status_retval = SOS_STATUS_FAILED;
+    }
+    else
+    {//SUCCESS
+    }
+
+    gl_enu_sos_scheduler_state = SOS_SCHEDULER_INITIALIZED;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    return enu_sos_status_retval;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }//Line 125
 
 /**
@@ -155,135 +154,135 @@ return enu_sos_status_retval;
  *  @Parameters (out)	:	None
  *  @Return value		:	SOS_STATUS_SUCCESS in case timers doesn't return an error
  *							SOS_STATUS_INVALID_STATE in case timers return an error
- */ 
+ */
 enu_sos_status_t_ sos_deinit(void)
 {//Line138
-	
-	enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
-	enu_sos_scheduler_state_t_ gl_enu_sos_scheduler_state = SOS_SCHEDULER_UNINITIALIZED;
-	
-	if (TIMER_pause(TIMER_0)==TIMER_NOK)
-	{
-		enu_sos_status_retval = SOS_STATUS_FAILED;
-	} 
-	else
-	{//SUCCESS
-	}
-	
-	
-	if (TIMER_disableInterrupt(TIMER_0)==TIMER_NOK)
-	{ enu_sos_status_retval = SOS_STATUS_FAILED;
-	} 
-	else
-	{//SUCCESS
-	}
-	
-	 for (uint8_t_ i = 0; i < SOS_NUMBER_OF_TASKS; ++i){
-		 gl_arr_ptr_str_task[i] = NULL_PTR;
-	 }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	return enu_sos_status_retval;	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-	
+    enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
+
+    if (timer_pause(TIMER_0)==TIMER_NOK)
+    {
+        enu_sos_status_retval = SOS_STATUS_FAILED;
+    }
+    else
+    {//SUCCESS
+    }
+
+
+    if (timer_disable_interrupt(TIMER_0)==TIMER_NOK)
+    { enu_sos_status_retval = SOS_STATUS_FAILED;
+    }
+    else
+    {//SUCCESS
+    }
+
+
+    if(0 != gl_uint8_number_of_tasks_added)
+    {
+        for (int i = 0; i < gl_uint8_number_of_tasks_added; ++i) {
+            gl_arr_ptr_str_task[i] = NULL_PTR;
+        }
+    }
+    gl_enu_sos_scheduler_state = SOS_SCHEDULER_UNINITIALIZED;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    return enu_sos_status_retval;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }// Line 251
 
 /**
@@ -306,7 +305,7 @@ enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task)
     {
         enu_sos_status_retval = SOS_STATUS_INVALID_STATE;
     }
-    // Arguments check
+        // Arguments check
     else if(
             NULL_PTR == ptr_str_task                    ||  // task ptr is null
             ptr_str_task->uint16_task_periodicity == 0  ||  // task periodicity is 0 (infinite)
@@ -349,10 +348,11 @@ enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task)
                 ptr_str_task->uint8_task_id = uint8_generated_task_id;
 
                 // save task in DB
-                gl_arr_ptr_str_task[uint8_number_of_tasks_in_db] = ptr_str_task;
-
-                // sort DB tasks according to task priority // todo-hossam check on alaa adding a return value for this?
-                sos_sort_database();
+                uint8_t_ uint8_new_task_db_index = uint8_number_of_tasks_in_db;
+                gl_arr_ptr_str_task[uint8_new_task_db_index] = ptr_str_task;
+                gl_uint8_number_of_tasks_added++;
+                // sort DB tasks according to task priority
+                sos_sort_database(uint8_new_task_db_index);
 
                 enu_sos_status_retval = SOS_STATUS_SUCCESS;
             }
@@ -362,7 +362,6 @@ enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task)
             }
         }
     }
-	
 
 
 
@@ -376,27 +375,28 @@ enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task)
 
 
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
 
 
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return enu_sos_status_retval;
 }//Line 365
 
@@ -424,7 +424,8 @@ enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
     {
         // search for task ID in DB
         str_sos_task_t_ *ptr_str_sos_task_to_delete = NULL;
-        enu_sos_status_retval = sos_find_task(uint8_task_id, &ptr_str_sos_task_to_delete);
+        uint8_t_ uint8_task_index_in_db = 0;
+        enu_sos_status_retval = sos_find_task(uint8_task_id, &ptr_str_sos_task_to_delete, &uint8_task_index_in_db);
 
         if(
                 SOS_STATUS_SUCCESS == enu_sos_status_retval      &&
@@ -433,7 +434,7 @@ enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
         {
             /* Task Found - Delete it */
             ptr_str_sos_task_to_delete = NULL_PTR;
-            sos_sort_database();
+            sos_sort_database(uint8_task_index_in_db);
             enu_sos_status_retval = SOS_STATUS_SUCCESS;
         }
         else
@@ -555,10 +556,10 @@ enu_sos_status_t_ sos_modify_task(str_sos_task_t_ str_task)
     {
         enu_sos_status_retval = SOS_STATUS_INVALID_STATE;
     }
-    // Arguments check
+        // Arguments check
     else if(
-                    (NULL_PTR == str_task.ptr_func_task) ||
-                    (0 == str_task.uint16_task_periodicity)
+            (NULL_PTR == str_task.ptr_func_task) ||
+            (0 == str_task.uint16_task_periodicity)
             )
     {
         enu_sos_status_retval = SOS_STATUS_INVALID_ARGS;
@@ -567,7 +568,8 @@ enu_sos_status_t_ sos_modify_task(str_sos_task_t_ str_task)
     {
         // search for task ID in DB
         str_sos_task_t_ * ptr_str_sos_task_to_delete = NULL;
-        enu_sos_status_retval = sos_find_task(str_task.uint8_task_id, &ptr_str_sos_task_to_delete);
+        uint8_t_ uint8_task_index_in_db = 0;
+        enu_sos_status_retval = sos_find_task(str_task.uint8_task_id, &ptr_str_sos_task_to_delete, &uint8_task_index_in_db);
 
         if(SOS_STATUS_SUCCESS == enu_sos_status_retval) // task found
         {
@@ -576,7 +578,7 @@ enu_sos_status_t_ sos_modify_task(str_sos_task_t_ str_task)
             ptr_str_sos_task_to_delete->uint8_task_priority     = str_task.uint8_task_priority;
             ptr_str_sos_task_to_delete->uint16_task_periodicity = str_task.uint16_task_periodicity;
             ptr_str_sos_task_to_delete->ptr_func_task           = str_task.ptr_func_task;
-            sos_sort_database();
+            sos_sort_database(uint8_task_index_in_db); // sort modified task
             enu_sos_status_retval = SOS_STATUS_SUCCESS;
         }
         else
@@ -587,7 +589,6 @@ enu_sos_status_t_ sos_modify_task(str_sos_task_t_ str_task)
     }
 
     return enu_sos_status_retval;
-
 
 
 
@@ -657,12 +658,13 @@ enu_sos_status_t_ sos_modify_task(str_sos_task_t_ str_task)
  *	@brief		                            :	Finds a task in DB using it's ID
  *  @param[in]      uint8_task_id 	        :   Task ID to search for
  *  @param[out]     ptr_ptr_str_sos_task 	:   Pointer to pointer store found task address
+ *  @param[out]     uint8_task_index_in_db 	:   (optional) Pointer to store found task index in DB
  *
  *  @Return     SOS_STATUS_SUCCESS		    :	Success,    Task found
  *              SOS_STATUS_INVALID_STATE    :   Failed,     SOS Invalid State (uninitialized)
  *              SOS_STATUS_INVALID_TASK_ID  :   Failed,     Task ID not found in DB
  */
-static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_ ** ptr_ptr_str_sos_task)
+static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_ ** ptr_ptr_str_sos_task, uint8_t_ * ptr_uint8_task_index_in_db)
 {
     enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
 
@@ -671,7 +673,7 @@ static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_
     {
         enu_sos_status_retval = SOS_STATUS_INVALID_STATE;
     }
-    // Arguments check
+        // Arguments check
     else if(NULL_PTR == ptr_ptr_str_sos_task)
     {
         enu_sos_status_retval = SOS_STATUS_INVALID_ARGS;
@@ -687,6 +689,15 @@ static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_
             {
                 bool_found = TRUE;
                 *ptr_ptr_str_sos_task = gl_arr_ptr_str_task[i]; // save found task pointer
+                if(NULL_PTR != ptr_uint8_task_index_in_db)
+                {
+                    // store DB index
+                    *ptr_uint8_task_index_in_db = i;
+                }
+                else
+                {
+                    /* Do Nothing */
+                }
                 break;
             }
             else
@@ -747,32 +758,71 @@ static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }//Line 725
 
-static void					sos_sort_database	(void)
-{//Line728
 
+/**
+ * @brief a private function to sort the task data base according to task
+ *		  priority after each modification to the Data base
+ *
+ * @return
+ */
+static void					sos_sort_database	(uint8_t_ uint8_task_db_index)
+{//Line771
 
+    str_sos_task_t_* lo_ptr_str_temp_task;
+    uint8_t_ lo_u8_null_found = 0;
+    uint8_t_ lo_u8_iterator, lo_u8_active_tasks = 0;
+    sint8_t_ lo_s8_null_task_index = -1;
+    uint8_t_ lo_u8_min_id_index = 0;
 
+    for(lo_u8_iterator = 0; lo_u8_iterator<SOS_NUMBER_OF_TASKS; lo_u8_iterator++)
+    {
+        if(NULL_PTR != gl_arr_ptr_str_task[lo_u8_iterator])
+        {
+            lo_u8_active_tasks++;
+            if(lo_u8_null_found)
+            {
+                lo_u8_null_found = 0;
+                lo_s8_null_task_index = lo_u8_iterator-1;
+            }
+        }
+        else if(lo_u8_null_found)
+        {
+            //lo_u8_active_tasks--;
+            break;
+        }
+        else
+        {
+            //lo_u8_active_tasks++;
+            lo_u8_null_found = 1;
+        }
+    }
 
+    if(lo_s8_null_task_index != -1)
+    {
+        /* swap the deleted task with the last active task */
+        gl_arr_ptr_str_task[lo_s8_null_task_index] = gl_arr_ptr_str_task[lo_u8_active_tasks];
+        gl_arr_ptr_str_task[lo_u8_active_tasks] = NULL_PTR;
+        return;
+    }
 
+    for (lo_u8_iterator = 0; lo_u8_iterator < lo_u8_active_tasks-1; lo_u8_iterator++)
+    {
+        lo_u8_min_id_index = lo_u8_iterator;
 
+        for (uint8_t_ i = lo_u8_iterator+1; i < lo_u8_active_tasks; i++)
+        {
+            if (gl_arr_ptr_str_task[i]->uint8_task_priority < gl_arr_ptr_str_task[lo_u8_min_id_index]->uint8_task_priority)
+            {
+                lo_u8_min_id_index = i;
+            }
+        }
 
+        lo_ptr_str_temp_task = gl_arr_ptr_str_task[lo_u8_min_id_index];
+        gl_arr_ptr_str_task[lo_u8_min_id_index] = gl_arr_ptr_str_task[lo_u8_iterator];
+        gl_arr_ptr_str_task[lo_u8_iterator] = lo_ptr_str_temp_task;
+    }
 
 
 
@@ -814,61 +864,7 @@ static void					sos_sort_database	(void)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}//line 831
+}//line 867
 
 /**
  *	@syntax				:	sos_run(void);
@@ -882,27 +878,27 @@ static void					sos_sort_database	(void)
  */
 enu_sos_status_t_ sos_run(void)
 {
-	enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
+    enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
 
-	if(TIMER_NOK == TIMER_resume(TIMER_0))
-	{
-		enu_return_value = SOS_STATUS_FAILED;
-	}
-	else
-	{
-		/*SOS_STATUS_SUCCESS*/
-	}
-	if (SOS_STATUS_SUCCESS == enu_return_value)
-	{
-		while(1)
-		{
-			if (SOS_SCHEDULER_READY == gl_enu_sos_scheduler_state)
-			{
-				sos_system_scheduler();
-			}
-		}
-	}
-	return enu_return_value;
+    if(TIMER_NOK == timer_resume(TIMER_0))
+    {
+        enu_return_value = SOS_STATUS_FAILED;
+    }
+    else
+    {
+        /*SOS_STATUS_SUCCESS*/
+    }
+    if (SOS_STATUS_SUCCESS == enu_return_value)
+    {
+        while(1)
+        {
+            if (SOS_SCHEDULER_READY == gl_enu_sos_scheduler_state)
+            {
+                sos_system_scheduler();
+            }
+        }
+    }
+    return enu_return_value;
 }
 
 /**
@@ -917,68 +913,68 @@ enu_sos_status_t_ sos_run(void)
  */
 enu_sos_status_t_ sos_disable(void)
 {
-	enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
+    enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
 
-	if(TIMER_NOK == TIMER_pause(TIMER_0))
-	{
-		enu_return_value = SOS_STATUS_FAILED;
-	}
-	else
-	{
-		/*SOS_STATUS_SUCCESS*/
-	}
-	return enu_return_value;
+    if(TIMER_NOK == timer_pause(TIMER_0))
+    {
+        enu_return_value = SOS_STATUS_FAILED;
+    }
+    else
+    {
+        /*SOS_STATUS_SUCCESS*/
+    }
+    return enu_return_value;
 }
 
 static void	sos_system_scheduler(void)
 {
-	uint32_t_ uint32_hyper_period = 0;
-	uint8_t_ uint8_looping_variable;
-	
-	if (0 != gl_uint8_number_of_tasks_added)	
-	{	
-		calculate_hyper_period(&uint32_hyper_period);
-		
-		for (uint8_looping_variable = 0; uint8_looping_variable < gl_uint8_number_of_tasks_added; uint8_looping_variable++)
-		{
-			if (0 == (gl_uint32_tick_counter % gl_arr_ptr_str_task[uint8_looping_variable]->uint16_task_periodicity))
-			{
-				if (NULL_PTR != gl_arr_ptr_str_task[uint8_looping_variable]->ptr_func_task)
-				{
-					gl_arr_ptr_str_task[uint8_looping_variable]->ptr_func_task();
-				}
-				else
-				{
-					/*FUNCTION DOES NOT EXIST*/
-				}
-			}
-			else
-			{
-				/*TASK IS NOT READY*/
-			}
-		}
-		
-		gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
-		
-		if (uint32_hyper_period == gl_uint32_tick_counter)
-		{
-			gl_uint32_tick_counter = 0;
-		}
-		else
-		{
-			/*SCHEDULER HAVEN'T REACH TO HYPER PERIOD YET*/
-		}
-	}
-	else
-	{
-		/*DATABASE IS EMPTY*/
-	}
+    uint32_t_ uint32_hyper_period = 0;
+    uint8_t_ uint8_looping_variable;
+
+    if (0 != gl_uint8_number_of_tasks_added)
+    {
+        calculate_hyper_period(&uint32_hyper_period);
+
+        for (uint8_looping_variable = 0; uint8_looping_variable < gl_uint8_number_of_tasks_added; uint8_looping_variable++)
+        {
+            if (0 == (gl_uint32_tick_counter % gl_arr_ptr_str_task[uint8_looping_variable]->uint16_task_periodicity))
+            {
+                if (NULL_PTR != gl_arr_ptr_str_task[uint8_looping_variable]->ptr_func_task)
+                {
+                    gl_arr_ptr_str_task[uint8_looping_variable]->ptr_func_task();
+                }
+                else
+                {
+                    /*FUNCTION DOES NOT EXIST*/
+                }
+            }
+            else
+            {
+                /*TASK IS NOT READY*/
+            }
+        }
+
+        gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
+
+        if (uint32_hyper_period == gl_uint32_tick_counter)
+        {
+            gl_uint32_tick_counter = 0;
+        }
+        else
+        {
+            /*SCHEDULER HAVEN'T REACH TO HYPER PERIOD YET*/
+        }
+    }
+    else
+    {
+        /*DATABASE IS EMPTY*/
+    }
 }
 
 static void	sos_sys_tick_task	(void)
 {
-	gl_uint32_tick_counter++;
-	gl_enu_sos_scheduler_state = SOS_SCHEDULER_READY;
+    gl_uint32_tick_counter++;
+    gl_enu_sos_scheduler_state = SOS_SCHEDULER_READY;
 }
 
 
@@ -1050,34 +1046,34 @@ static enu_sos_status_t_    sos_generate_task_id(uint8_t_ * uint8_new_task_id)
 }
 
 
-static uint32_t_ gcd(uint32_t_ uint32_first_var, uint32_t_ uint32_second_variable) 
+static uint32_t_ gcd(uint32_t_ uint32_first_var, uint32_t_ uint32_second_variable)
 {
-	uint32_t_ uint32_gcd_value = 0, uint32_temp;
-    while (uint32_second_variable != 0) 
-	{
+    uint32_t_ uint32_gcd_value = 0, uint32_temp;
+    while (uint32_second_variable != 0)
+    {
         uint32_temp = uint32_second_variable;
         uint32_second_variable = uint32_first_var % uint32_second_variable;
         uint32_first_var = uint32_temp;
     }
-	uint32_gcd_value = uint32_first_var;
-    return uint32_first_var;
+    uint32_gcd_value = uint32_first_var;
+    return uint32_gcd_value;
 }
 
-static uint32_t_ lcm(uint32_t_ uint32_first_var, uint32_t_ uint32_second_variable) 
+static uint32_t_ lcm(uint32_t_ uint32_first_var, uint32_t_ uint32_second_variable)
 {
-	uint32_t_ uint32_lcm_return_value = 0;
-	uint32_t_ uint32_gcd_value = 0;
-	uint32_gcd_value = gcd(uint32_first_var, uint32_second_variable);
+    uint32_t_ uint32_lcm_return_value = 0;
+    uint32_t_ uint32_gcd_value = 0;
+    uint32_gcd_value = gcd(uint32_first_var, uint32_second_variable);
     uint32_lcm_return_value = (uint32_first_var * uint32_second_variable) / uint32_gcd_value;
-	return uint32_lcm_return_value;
+    return uint32_lcm_return_value;
 }
 
-static void calculate_hyper_period(uint32_t_* ptr_uint32_hyper_period) 
+static void calculate_hyper_period(uint32_t_* ptr_uint32_hyper_period)
 {
-	uint8_t_ uint8_looping_variable = 0;
-	*ptr_uint32_hyper_period = gl_arr_ptr_str_task[0]->uint16_task_periodicity;
-	for (; uint8_looping_variable < gl_uint8_number_of_tasks_added; uint8_looping_variable++)
-	{
-		*ptr_uint32_hyper_period = lcm(*ptr_uint32_hyper_period, gl_arr_ptr_str_task[uint8_looping_variable]->uint16_task_periodicity);
-	}
+    uint8_t_ uint8_looping_variable = 0;
+    *ptr_uint32_hyper_period = gl_arr_ptr_str_task[0]->uint16_task_periodicity;
+    for (; uint8_looping_variable < gl_uint8_number_of_tasks_added; uint8_looping_variable++)
+    {
+        *ptr_uint32_hyper_period = lcm(*ptr_uint32_hyper_period, gl_arr_ptr_str_task[uint8_looping_variable]->uint16_task_periodicity);
+    }
 }
