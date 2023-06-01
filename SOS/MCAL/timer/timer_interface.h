@@ -48,7 +48,7 @@ typedef enum
 	TIMER_OV = 0,
 	TIMER_PWM,
     TIMER_CTC
-}enu_timer_waveformUsed_t;
+}enu_timer_waveform_used_t;
 
 typedef enum
 {	
@@ -60,14 +60,14 @@ typedef enum
 	TIMER_PRESCLNG_1024	= 1024,
 	TIMER_XCK_FLNG_EDGE	= 10,
 	TIMER_XCK_RSNG_EDGE	= 15
-}enu_timer_prescalerUsed_t;
+}enu_timer_prescaler_used_t;
 
 
 typedef struct
 {
 	enu_timer_number_t			timerUsed;
-	enu_timer_waveformUsed_t		waveformUsed;
-	enu_timer_prescalerUsed_t	prescalerUsed;
+	enu_timer_waveform_used_t		waveformUsed;
+	enu_timer_prescaler_used_t	prescalerUsed;
 }str_timer_config_t;
 
 
