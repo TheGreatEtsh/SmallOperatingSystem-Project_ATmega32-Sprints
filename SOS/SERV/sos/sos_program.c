@@ -1057,7 +1057,7 @@ static uint32_t_ gcd(uint32_t_ uint32_first_var, uint32_t_ uint32_second_variabl
         uint32_first_var = uint32_temp;
     }
 	uint32_gcd_value = uint32_first_var;
-    return uint32_first_var;
+    return uint32_gcd_value;
 }
 
 static uint32_t_ lcm(uint32_t_ uint32_first_var, uint32_t_ uint32_second_variable) 
