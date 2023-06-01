@@ -22,6 +22,7 @@ enu_sos_scheduler_state_t_	gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
 enu_sos_status_t_ sos_init(void)
 {//Line23
 	enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
+	enu_sos_scheduler_state_t_ gl_enu_sos_scheduler_state = SOS_SCHEDULER_INITIALIZED;
 	if (TIMER_init(  )==TIMER_NOK)
 	{enu_sos_status_retval = SOS_STATUS_FAILED;
 	} 
@@ -159,6 +160,7 @@ enu_sos_status_t_ sos_deinit(void)
 {//Line138
 	
 	enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
+	enu_sos_scheduler_state_t_ gl_enu_sos_scheduler_state = SOS_SCHEDULER_UNINITIALIZED;
 	
 	if (TIMER_pause(TIMER_0)==TIMER_NOK)
 	{
@@ -176,7 +178,9 @@ enu_sos_status_t_ sos_deinit(void)
 	{//SUCCESS
 	}
 	
-	
+	 for (uint8_t_ i = 0; i < SOS_NUMBER_OF_TASKS; ++i){
+		 gl_arr_ptr_str_task[i] = NULL_PTR;
+	 }
 	
 	
 	
