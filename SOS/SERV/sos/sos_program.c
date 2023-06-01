@@ -132,21 +132,7 @@ enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task)
     else
     {
         /* Task Creation */
-        // get next empty db index
-        uint8_t_ uint8_number_of_tasks_in_db = 0;
-        for (uint8_t_ i = 0; i < SOS_NUMBER_OF_TASKS; ++i) {
-            if (NULL_PTR == gl_arr_ptr_str_task[i])
-            {
-                /* Reached end of DB */
-                break;
-            }
-            else
-            {
-                uint8_number_of_tasks_in_db++;
-            }
-        }
-
-        if(SOS_NUMBER_OF_TASKS == uint8_number_of_tasks_in_db)
+        if(SOS_NUMBER_OF_TASKS == gl_uint8_number_of_tasks_added)
         {
             /* DB FULL */
             enu_sos_status_retval = SOS_STATUS_DATABASE_FULL;
@@ -163,7 +149,7 @@ enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task)
                 ptr_str_task->uint8_task_id = uint8_generated_task_id;
 
                 // save task in DB
-                uint8_t_ uint8_new_task_db_index = uint8_number_of_tasks_in_db;
+                uint8_t_ uint8_new_task_db_index = gl_uint8_number_of_tasks_added;
                 gl_arr_ptr_str_task[uint8_new_task_db_index] = ptr_str_task;
                 gl_uint8_number_of_tasks_added++;
                 // sort DB tasks according to task priority
@@ -316,7 +302,7 @@ static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_
 
         uint8_t_ bool_found = FALSE;        // task found flag
 
-        for (uint8_t_ i = 0; i < SOS_NUMBER_OF_TASKS; ++i) {
+        for (uint8_t_ i = 0; i < gl_uint8_number_of_tasks_added; ++i) {
             if(uint8_task_id == gl_arr_ptr_str_task[i]->uint8_task_id)
             {
                 bool_found = TRUE;
@@ -572,16 +558,8 @@ static enu_sos_status_t_    sos_generate_task_id(uint8_t_ * uint8_new_task_id)
         uint8_t_ uint8_ids_map[SOS_NUMBER_OF_TASKS] = {FALSE};
 
         // Calculate ids map DB O(n)
-        for (uint8_t_ i = 0; i < SOS_NUMBER_OF_TASKS; ++i) {
-            if(NULL_PTR == gl_arr_ptr_str_task[i])
-            {
-                // reached end of tasks
-                break;
-            }
-            else
-            {
-                uint8_ids_map[gl_arr_ptr_str_task[i]->uint8_task_id] = TRUE;
-            }
+        for (uint8_t_ i = 0; i < gl_uint8_number_of_tasks_added; ++i) {
+            uint8_ids_map[gl_arr_ptr_str_task[i]->uint8_task_id] = TRUE;
         }
 
         // Get first unused ID, worst case: O(n)
