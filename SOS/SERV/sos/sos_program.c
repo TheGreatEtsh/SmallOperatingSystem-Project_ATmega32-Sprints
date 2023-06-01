@@ -768,63 +768,61 @@ static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_
  * @return
  */
 static void					sos_sort_database	(uint8_t_ uint8_task_db_index)
-{//Line771
+{//Line773
 
-    str_sos_task_t_* lo_ptr_str_temp_task;
-    uint8_t_ lo_u8_null_found = 0;
-    uint8_t_ lo_u8_iterator, lo_u8_active_tasks = 0;
-    sint8_t_ lo_s8_null_task_index = -1;
-    uint8_t_ lo_u8_min_id_index = 0;
+	str_sos_task_t_* lo_ptr_str_temp_task;
 
-    for(lo_u8_iterator = 0; lo_u8_iterator<SOS_NUMBER_OF_TASKS; lo_u8_iterator++)
-    {
-        if(NULL_PTR != gl_arr_ptr_str_task[lo_u8_iterator])
-        {
-            lo_u8_active_tasks++;
-            if(lo_u8_null_found)
-            {
-                lo_u8_null_found = 0;
-                lo_s8_null_task_index = lo_u8_iterator-1;
-            }
-        }
-        else if(lo_u8_null_found)
-        {
-            //lo_u8_active_tasks--;
-            break;
-        }
-        else
-        {
-            //lo_u8_active_tasks++;
-            lo_u8_null_found = 1;
-        }
-    }
-
-    if(lo_s8_null_task_index != -1)
-    {
-        /* swap the deleted task with the last active task */
-        gl_arr_ptr_str_task[lo_s8_null_task_index] = gl_arr_ptr_str_task[lo_u8_active_tasks];
-        gl_arr_ptr_str_task[lo_u8_active_tasks] = NULL_PTR;
-        return;
-    }
-
-    for (lo_u8_iterator = 0; lo_u8_iterator < lo_u8_active_tasks-1; lo_u8_iterator++)
-    {
-        lo_u8_min_id_index = lo_u8_iterator;
-
-        for (uint8_t_ i = lo_u8_iterator+1; i < lo_u8_active_tasks; i++)
-        {
-            if (gl_arr_ptr_str_task[i]->uint8_task_priority < gl_arr_ptr_str_task[lo_u8_min_id_index]->uint8_task_priority)
-            {
-                lo_u8_min_id_index = i;
-            }
-        }
-
-        lo_ptr_str_temp_task = gl_arr_ptr_str_task[lo_u8_min_id_index];
-        gl_arr_ptr_str_task[lo_u8_min_id_index] = gl_arr_ptr_str_task[lo_u8_iterator];
-        gl_arr_ptr_str_task[lo_u8_iterator] = lo_ptr_str_temp_task;
-    }
-
-
+	/* Check if a task was deleted */
+	if(NULL_PTR == gl_arr_ptr_str_task[uint8_task_db_index])
+	{
+		/* swap the deleted task with the last active task */
+		while(uint8_task_db_index < gl_uint8_number_of_tasks_added-2)
+		{
+			gl_arr_ptr_str_task[uint8_task_db_index] = gl_arr_ptr_str_task[uint8_task_db_index+1];
+			gl_arr_ptr_str_task[uint8_task_db_index+1] = NULL_PTR;
+			uint8_task_db_index++;
+		}
+	}
+	/* Check if a task was added */
+	else if(gl_uint8_number_of_tasks_added-1 == uint8_task_db_index)
+	{
+		if (!uint8_task_db_index) return;
+		while(gl_arr_ptr_str_task[uint8_task_db_index]->uint8_task_priority 
+			< gl_arr_ptr_str_task[uint8_task_db_index-1]->uint8_task_priority)
+			{
+				/* Swap the tasks */
+				lo_ptr_str_temp_task = gl_arr_ptr_str_task[uint8_task_db_index];
+				gl_arr_ptr_str_task[uint8_task_db_index] = gl_arr_ptr_str_task[uint8_task_db_index-1];
+				gl_arr_ptr_str_task[uint8_task_db_index-1] = lo_ptr_str_temp_task;
+				uint8_task_db_index --;
+				if(0 == uint8_task_db_index) break;
+			}
+	}
+	else /* A task was modified */
+	{
+		uint8_t_ lo_uint8_temp_index = uint8_task_db_index;
+		while(gl_arr_ptr_str_task[lo_uint8_temp_index]->uint8_task_priority
+		< gl_arr_ptr_str_task[lo_uint8_temp_index-1]->uint8_task_priority)
+		{
+			/* Swap the tasks */
+			lo_ptr_str_temp_task = gl_arr_ptr_str_task[lo_uint8_temp_index];
+			gl_arr_ptr_str_task[lo_uint8_temp_index] = gl_arr_ptr_str_task[lo_uint8_temp_index-1];
+			gl_arr_ptr_str_task[lo_uint8_temp_index-1] = lo_ptr_str_temp_task;
+			lo_uint8_temp_index --;
+			if(0 == lo_uint8_temp_index) break;
+		}
+		
+		while(gl_arr_ptr_str_task[uint8_task_db_index]->uint8_task_priority
+		> gl_arr_ptr_str_task[uint8_task_db_index+1]->uint8_task_priority)
+		{
+			/* Swap the tasks */
+			lo_ptr_str_temp_task = gl_arr_ptr_str_task[uint8_task_db_index];
+			gl_arr_ptr_str_task[uint8_task_db_index] = gl_arr_ptr_str_task[uint8_task_db_index+1];
+			gl_arr_ptr_str_task[uint8_task_db_index+1] = lo_ptr_str_temp_task;
+			uint8_task_db_index ++;
+			if(uint8_task_db_index == gl_uint8_number_of_tasks_added-2) break;
+		}
+	}
 
 
 
@@ -864,7 +862,11 @@ static void					sos_sort_database	(uint8_t_ uint8_task_db_index)
 
 
 
-}//line 867
+
+
+
+
+}//line 869
 
 /**
  *	@syntax				:	sos_run(void);
