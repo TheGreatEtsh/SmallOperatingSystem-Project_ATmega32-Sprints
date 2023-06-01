@@ -8,7 +8,7 @@
 #include "sos_private.h"
 static str_sos_task_t_*	gl_arr_ptr_str_task[SOS_NUMBER_OF_TASKS] = {NULL_PTR};
 uint32_t_ gl_uint32_tick_counter = 0; uint8_t_ gl_uint8_number_of_tasks_added = 0;
-enu_sos_scheduler_state_t_	gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
+enu_sos_scheduler_state_t_	gl_enu_sos_scheduler_state = SOS_SCHEDULER_UNINITIALIZED;
 	/**
  *	@syntax				:	sos_init(void);
  *	@description		:	Initializes the sos module
