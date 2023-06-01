@@ -433,7 +433,8 @@ enu_sos_status_t_ sos_delete_task(uint8_t_ uint8_task_id)
         ) // task found
         {
             /* Task Found - Delete it */
-            ptr_str_sos_task_to_delete = NULL_PTR;
+            //ptr_str_sos_task_to_delete = NULL_PTR;
+			gl_arr_ptr_str_task[uint8_task_index_in_db] = NULL_PTR;
             sos_sort_database(uint8_task_index_in_db);
             enu_sos_status_retval = SOS_STATUS_SUCCESS;
         }
@@ -776,7 +777,7 @@ static void					sos_sort_database	(uint8_t_ uint8_task_db_index)
 	if(NULL_PTR == gl_arr_ptr_str_task[uint8_task_db_index])
 	{
 		/* swap the deleted task with the last active task */
-		while(uint8_task_db_index < gl_uint8_number_of_tasks_added-2)
+		while(uint8_task_db_index < gl_uint8_number_of_tasks_added-1)
 		{
 			gl_arr_ptr_str_task[uint8_task_db_index] = gl_arr_ptr_str_task[uint8_task_db_index+1];
 			gl_arr_ptr_str_task[uint8_task_db_index+1] = NULL_PTR;
@@ -801,26 +802,30 @@ static void					sos_sort_database	(uint8_t_ uint8_task_db_index)
 	else /* A task was modified */
 	{
 		uint8_t_ lo_uint8_temp_index = uint8_task_db_index;
-		while(gl_arr_ptr_str_task[lo_uint8_temp_index]->uint8_task_priority
-		< gl_arr_ptr_str_task[lo_uint8_temp_index-1]->uint8_task_priority)
+		
+		if(uint8_task_db_index)
 		{
-			/* Swap the tasks */
-			lo_ptr_str_temp_task = gl_arr_ptr_str_task[lo_uint8_temp_index];
-			gl_arr_ptr_str_task[lo_uint8_temp_index] = gl_arr_ptr_str_task[lo_uint8_temp_index-1];
-			gl_arr_ptr_str_task[lo_uint8_temp_index-1] = lo_ptr_str_temp_task;
-			lo_uint8_temp_index --;
-			if(0 == lo_uint8_temp_index) break;
-		}
+			while(gl_arr_ptr_str_task[lo_uint8_temp_index]->uint8_task_priority
+			< gl_arr_ptr_str_task[lo_uint8_temp_index-1]->uint8_task_priority)
+			{
+				/* Swap the tasks */
+				lo_ptr_str_temp_task = gl_arr_ptr_str_task[lo_uint8_temp_index];
+				gl_arr_ptr_str_task[lo_uint8_temp_index] = gl_arr_ptr_str_task[lo_uint8_temp_index-1];
+				gl_arr_ptr_str_task[lo_uint8_temp_index-1] = lo_ptr_str_temp_task;
+				lo_uint8_temp_index --;
+				if(0 == lo_uint8_temp_index) break;
+			}
+		}		
 		
 		while(gl_arr_ptr_str_task[uint8_task_db_index]->uint8_task_priority
 		> gl_arr_ptr_str_task[uint8_task_db_index+1]->uint8_task_priority)
 		{
+			if(uint8_task_db_index == gl_uint8_number_of_tasks_added-1) break;
 			/* Swap the tasks */
 			lo_ptr_str_temp_task = gl_arr_ptr_str_task[uint8_task_db_index];
 			gl_arr_ptr_str_task[uint8_task_db_index] = gl_arr_ptr_str_task[uint8_task_db_index+1];
 			gl_arr_ptr_str_task[uint8_task_db_index+1] = lo_ptr_str_temp_task;
-			uint8_task_db_index ++;
-			if(uint8_task_db_index == gl_uint8_number_of_tasks_added-2) break;
+			uint8_task_db_index ++;			
 		}
 	}
 
