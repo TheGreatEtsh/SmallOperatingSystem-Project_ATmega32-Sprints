@@ -57,38 +57,38 @@ enu_sos_status_t_ sos_init(void)
 }//Line 125
 
 /**
- *	@syntax				:	sos_deinit(void);
+ *
  *	@description		:	deinitializes the sos module
  *	@Sync\Async      	:	Synchronous
  *  @Reentrancy      	:	Reentrant
  *  @Parameters (in) 	:	None
  *  @Parameters (out)	:	None
- *  @Return value		:	SOS_STATUS_SUCCESS in case timers doesn't return an error
- *							SOS_STATUS_INVALID_STATE in case timers return an error
+ *
+ *
  */
-enu_sos_status_t_ sos_deinit(void)
-{//Line138
+void sos_deinit(void)
+{
 
     enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
 
     if (timer_pause(TIMER_0)==TIMER_NOK)
     {
-        enu_sos_status_retval = SOS_STATUS_FAILED;
-    }
-    else
-    {//SUCCESS
+        return;
     }
 
 
-    if (timer_disable_interrupt(TIMER_0)==TIMER_NOK)
-    { enu_sos_status_retval = SOS_STATUS_FAILED;
-    }
-    else
-    {//SUCCESS
+
+
+
+    else if (timer_disable_interrupt(TIMER_0)==TIMER_NOK)
+    {
+        return;
     }
 
 
-    if(0 != gl_uint8_number_of_tasks_added)
+
+
+    else if(0 != gl_uint8_number_of_tasks_added)
     {
         for (int i = 0; i < gl_uint8_number_of_tasks_added; ++i) {
             gl_arr_ptr_str_task[i] = NULL_PTR;
@@ -96,7 +96,7 @@ enu_sos_status_t_ sos_deinit(void)
     }
     gl_enu_sos_scheduler_state = SOS_SCHEDULER_UNINITIALIZED;
 
-    return enu_sos_status_retval;
+
 
 }// Line 251
 

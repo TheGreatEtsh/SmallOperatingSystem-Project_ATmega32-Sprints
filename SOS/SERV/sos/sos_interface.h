@@ -55,10 +55,10 @@ enu_sos_status_t_ sos_init(void);
  *  @Reentrancy      	:	Reentrant
  *  @Parameters (in) 	:	None
  *  @Parameters (out)	:	None
- *  @Return value		:	SOS_STATUS_SUCCESS in case timers doesn't return an error
- *							SOS_STATUS_INVALID_STATE in case timers return an error
+ *
+ *
  */ 
-enu_sos_status_t_ sos_deinit(void);
+void sos_deinit(void);
 
 /**
  *	@syntax				:	sos_create_task(str_sos_task_t_* ptr_str_task);
