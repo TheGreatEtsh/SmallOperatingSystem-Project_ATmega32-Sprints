@@ -5,12 +5,11 @@
  * Author : 
  */ 
 
+#include "app.h"
 
 int main(void)
 {
-    /* Replace with your application code */
-    while (1) 
-    {
-    }
+    app_init();
+	app_start();
 }
 
