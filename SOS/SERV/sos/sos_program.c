@@ -760,12 +760,69 @@ static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_
 
 }//Line 725
 
+
+/**
+ * @brief a private function to sort the task data base according to task 
+ *		  priority after each modification to the Data base
+ *
+ * @return 
+ */
 static void					sos_sort_database	(void)
-{//Line728
+{//Line771
 
+	str_sos_task_t_* lo_ptr_str_temp_task;
+	uint8_t_ lo_u8_null_found = 0;
+	uint8_t_ lo_u8_iterator, lo_u8_active_tasks = 0;
+	sint8_t_ lo_s8_null_task_index = -1;
+	uint8_t_ lo_u8_min_id_index = 0;
 
+	for(lo_u8_iterator = 0; lo_u8_iterator<SOS_NUMBER_OF_TASKS; lo_u8_iterator++)
+	{
+		if(NULL_PTR != gl_arr_ptr_str_task[lo_u8_iterator])
+		{
+			lo_u8_active_tasks++;
+			if(lo_u8_null_found)
+			{
+				lo_u8_null_found = 0;
+				lo_s8_null_task_index = lo_u8_iterator-1;
+			}
+		}
+		else if(lo_u8_null_found) 
+		{
+			//lo_u8_active_tasks--;
+			break;
+		}
+		else
+		{
+			//lo_u8_active_tasks++;
+			lo_u8_null_found = 1;
+		}
+	}
 
+	if(lo_s8_null_task_index != -1)
+	{
+		/* swap the deleted task with the last active task */
+		gl_arr_ptr_str_task[lo_s8_null_task_index] = gl_arr_ptr_str_task[lo_u8_active_tasks];
+		gl_arr_ptr_str_task[lo_u8_active_tasks] = NULL_PTR;
+		return;		
+	}
 
+	for (lo_u8_iterator = 0; lo_u8_iterator < lo_u8_active_tasks-1; lo_u8_iterator++) 
+	{
+		lo_u8_min_id_index = lo_u8_iterator;
+		
+		for (uint8_t_ i = lo_u8_iterator+1; i < lo_u8_active_tasks; i++) 
+		{
+			if (gl_arr_ptr_str_task[i]->uint8_task_priority < gl_arr_ptr_str_task[lo_u8_min_id_index]->uint8_task_priority) 
+			{
+				lo_u8_min_id_index = i;
+			}
+		}
+		
+		lo_ptr_str_temp_task = gl_arr_ptr_str_task[lo_u8_min_id_index];
+		gl_arr_ptr_str_task[lo_u8_min_id_index] = gl_arr_ptr_str_task[lo_u8_iterator];
+		gl_arr_ptr_str_task[lo_u8_iterator] = lo_ptr_str_temp_task;
+	}
 
 
 
@@ -807,64 +864,7 @@ static void					sos_sort_database	(void)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}//line 831
+}//line 867
 
 /**
  *	@syntax				:	sos_run(void);
