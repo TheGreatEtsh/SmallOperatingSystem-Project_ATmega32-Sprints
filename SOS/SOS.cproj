@@ -36,10 +36,23 @@
   <documentation help="" />
   <offline-documentation help="" />
   <dependencies>
-    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.28.1" />
+    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.44.1" />
   </dependencies>
 </framework-data>
     </AsfFrameworkConfig>
+    <avrtool>com.atmel.avrdbg.tool.simulator</avrtool>
+    <avrtoolserialnumber />
+    <avrdeviceexpectedsignature>0x1E9502</avrdeviceexpectedsignature>
+    <com_atmel_avrdbg_tool_simulator>
+      <ToolOptions xmlns="">
+        <InterfaceProperties>
+        </InterfaceProperties>
+      </ToolOptions>
+      <ToolType xmlns="">com.atmel.avrdbg.tool.simulator</ToolType>
+      <ToolNumber xmlns="">
+      </ToolNumber>
+      <ToolName xmlns="">Simulator</ToolName>
+    </com_atmel_avrdbg_tool_simulator>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -133,7 +146,10 @@
     <Compile Include="APP\CFile1.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="ECUAL\button\CFile1.c">
+    <Compile Include="ECUAL\button\btn_interface.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ECUAL\button\btn_program.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="ECUAL\led\led_interface.h">
