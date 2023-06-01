@@ -22,7 +22,7 @@ enu_sos_scheduler_state_t_	gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
 enu_sos_status_t_ sos_init(void)
 {//Line23
 	enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
-	if (TIMER_init(  )==TIMER_NOK)
+	if (timer_init(  )==TIMER_NOK)
 	{enu_sos_status_retval = SOS_STATUS_FAILED;
 	} 
 	else
@@ -30,7 +30,7 @@ enu_sos_status_t_ sos_init(void)
 	}
 	
 	
-	if (TIMER_set_time(TIMER_0, SOS_SYS_TICK_TIME_MS)==TIMER_NOK)
+	if (timer_set_time(TIMER_0, SOS_SYS_TICK_TIME_MS)==TIMER_NOK)
 	{
 		enu_sos_status_retval = SOS_STATUS_FAILED;
 	} 
@@ -38,13 +38,13 @@ enu_sos_status_t_ sos_init(void)
 	{//SUCCESS
 	}
 	
-	if (TIMER_enable_interrupt(TIMER_0)==TIMER_NOK)
+	if (timer_enable_interrupt(TIMER_0)==TIMER_NOK)
 	{enu_sos_status_retval = SOS_STATUS_FAILED;
 	} 
 	else
 	{//SUCCESS
 	}
-	if (TIMER_set_callback(TIMER_0,sos_sys_tick_task)== TIMER_NOK)
+	if (timer_set_callback(TIMER_0,sos_sys_tick_task)== TIMER_NOK)
 	{enu_sos_status_retval = SOS_STATUS_FAILED;
 	} 
 	else
@@ -160,7 +160,7 @@ enu_sos_status_t_ sos_deinit(void)
 	
 	enu_sos_status_t_ enu_sos_status_retval = SOS_STATUS_SUCCESS;
 	
-	if (TIMER_pause(TIMER_0)==TIMER_NOK)
+	if (timer_pause(TIMER_0)==TIMER_NOK)
 	{
 		enu_sos_status_retval = SOS_STATUS_FAILED;
 	} 
@@ -169,7 +169,7 @@ enu_sos_status_t_ sos_deinit(void)
 	}
 	
 	
-	if (TIMER_disableInterrupt(TIMER_0)==TIMER_NOK)
+	if (timer_disable_interrupt(TIMER_0)==TIMER_NOK)
 	{ enu_sos_status_retval = SOS_STATUS_FAILED;
 	} 
 	else
@@ -881,7 +881,7 @@ enu_sos_status_t_ sos_run(void)
 {
 	enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
 
-	if(TIMER_NOK == TIMER_resume(TIMER_0))
+	if(TIMER_NOK == timer_resume(TIMER_0))
 	{
 		enu_return_value = SOS_STATUS_FAILED;
 	}
@@ -916,7 +916,7 @@ enu_sos_status_t_ sos_disable(void)
 {
 	enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
 
-	if(TIMER_NOK == TIMER_pause(TIMER_0))
+	if(TIMER_NOK == timer_pause(TIMER_0))
 	{
 		enu_return_value = SOS_STATUS_FAILED;
 	}
