@@ -963,8 +963,11 @@ static void	sos_system_scheduler(void)
                 /*TASK IS NOT READY*/
             }
         }
-
-        gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
+		
+		if(SOS_SCHEDULER_READY == gl_enu_sos_scheduler_state)
+		{
+			gl_enu_sos_scheduler_state = SOS_SCHEDULER_BLOCKED;
+		}
 
         if (uint32_hyper_period == gl_uint32_tick_counter)
         {
