@@ -423,7 +423,11 @@ enu_sos_status_t_ sos_run(void)
 {
     enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
 
-    if(TIMER_NOK == timer_resume(TIMER_0))
+    if(gl_enu_sos_scheduler_state != SOS_SCHEDULER_INITIALIZED)
+    {
+        enu_return_value = SOS_STATUS_INVALID_STATE;
+    }
+    else if(TIMER_NOK == timer_resume(TIMER_0))
     {
         enu_return_value = SOS_STATUS_FAILED;
     }
@@ -460,7 +464,13 @@ enu_sos_status_t_ sos_disable(void)
 {
     enu_sos_status_t_ enu_return_value = SOS_STATUS_SUCCESS;
 
-    if(TIMER_NOK == timer_pause(TIMER_0))
+    if(
+            gl_enu_sos_scheduler_state == SOS_SCHEDULER_UNINITIALIZED
+    )
+    {
+        enu_return_value = SOS_STATUS_INVALID_STATE;
+    }
+    else if(TIMER_NOK == timer_pause(TIMER_0))
     {
         enu_return_value = SOS_STATUS_FAILED;
     }
