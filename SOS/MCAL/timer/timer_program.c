@@ -20,13 +20,13 @@
 /**********************************************************************************************************************
  *  GLOBAL DATA
  *********************************************************************************************************************/
-extern const st_TIMER_config_t st_TIMER_config [NUMBER_OF_TIMERS_USED];
+extern const str_timer_config_t str_timer_config [NUMBER_OF_TIMERS_USED];
 
-void (*TIMER_0_callBack) (void) = NULL_PTR;
+void (*timer_0_callback) (void) = NULL_PTR;
 
-void (*TIMER_1_callBack) (void) = NULL_PTR;
+void (*timer_1_callback) (void) = NULL_PTR;
 
-void (*TIMER_2_callBack) (void) = NULL_PTR;
+void (*timer_2_callback) (void) = NULL_PTR;
 
 void (*TIMER_0_pwmOnCallBack) (void) = NULL_PTR;
 
@@ -56,27 +56,27 @@ uint8_t_ gl_uint8_normalToPwm		=	0;
  *  GLOBAL FUNCTION IMPLEMENTATION
  *********************************************************************************************************************/
 /******************************************************************************
-* @Syntax          : enu_TIMER_error_t TIMER_init( void )
+* @Syntax          : enu_timer_error_t timer_init( void )
 * @Description     : Initialize Timer according to preprocessed configured definitions
 * @Sync\Async      : Synchronous
 * @Reentrancy      : Reentrant
 * @Parameters (in) : None
 * @Parameters (out): None
-* @Return value:   : enu_TIMER_error_t		TIMER_OK = 0
+* @Return value:   : enu_timer_error_t		TIMER_OK = 0
 *											TIMER_WRONG_TIMER_USED = 1
 *											TIMER_WRONG_DESIRED_TIME = 2
 *											TIMER_NOK = 3
 *******************************************************************************/
-enu_TIMER_error_t TIMER_init( void )
+enu_timer_error_t timer_init( void )
 {
-	enu_TIMER_error_t returnValue = TIMER_OK;
+	enu_timer_error_t returnValue = TIMER_OK;
 	
 	for (uint8_t_ counter = 0; counter < NUMBER_OF_TIMERS_USED; counter++)
 	{
-		switch(st_TIMER_config[counter].timerUsed)
+		switch(str_timer_config[counter].timerUsed)
 		{
 			case TIMER_0:
-			switch(st_TIMER_config[counter].waveformUsed)
+			switch(str_timer_config[counter].waveformUsed)
 			{
 				case TIMER_OV:
 				/*Choosing Normal Mode*/
@@ -104,7 +104,7 @@ enu_TIMER_error_t TIMER_init( void )
 			break;
 			
 			case TIMER_1:
-			switch(st_TIMER_config[counter].waveformUsed)
+			switch(str_timer_config[counter].waveformUsed)
 			{
 				case TIMER_OV:
 				CLR_BIT(TCCR1A,COM1A1);
@@ -131,7 +131,7 @@ enu_TIMER_error_t TIMER_init( void )
 			break;
 			
 			case TIMER_2:
-			switch(st_TIMER_config[counter].waveformUsed)
+			switch(str_timer_config[counter].waveformUsed)
 			{
 				case TIMER_OV:
 				/*Choosing Normal Mode*/
@@ -172,22 +172,22 @@ enu_TIMER_error_t TIMER_init( void )
 }
 
 /******************************************************************************
-* @Syntax          : enu_TIMER_error_t TIMER_setTime
-*					 (enu_TIMER_number_t enu_a_timerUsed, f32 f32_desiredTime)
+* @Syntax          : enu_timer_error_t timer_set_time
+*					 (enu_timer_number_t enu_a_timerUsed, f32 f32_desiredTime)
 * @Description     : set the time at which the timer interrupts
 * @Sync\Async      : Synchronous
 * @Reentrancy      : Reentrant
-* @Parameters (in) : enu_TIMER_number_t		enu_a_timerUsed
+* @Parameters (in) : enu_timer_number_t		enu_a_timerUsed
 *					 f32					f32_a_desiredTime
 * @Parameters (out): None
-* @Return value:   : enu_TIMER_error_t		TIMER_OK = 0
+* @Return value:   : enu_timer_error_t		TIMER_OK = 0
 *											TIMER_WRONG_TIMER_USED = 1
 *											TIMER_WRONG_DESIRED_TIME = 2
 *											TIMER_NOK = 3
 *******************************************************************************/
-enu_TIMER_error_t TIMER_setTime(enu_TIMER_number_t enu_a_timerUsed, f32_t_ f32_desiredTime)
+enu_timer_error_t timer_set_time(enu_timer_number_t enu_a_timerUsed, f32_t_ f32_desiredTime)
 {
-	enu_TIMER_error_t returnValue = TIMER_OK;
+	enu_timer_error_t returnValue = TIMER_OK;
 	uint32_t_ uint32_tickTime = 0;
 	uint32_t_ uint32_numberOfTicks = 0;
 	uint16_t_ uint16_TCNTValue = 0;
@@ -195,10 +195,10 @@ enu_TIMER_error_t TIMER_setTime(enu_TIMER_number_t enu_a_timerUsed, f32_t_ f32_d
 	switch(enu_a_timerUsed)
 	{
 		case TIMER_0:
-		switch(st_TIMER_config[enu_a_timerUsed].waveformUsed)
+		switch(str_timer_config[enu_a_timerUsed].waveformUsed)
 		{
 			case TIMER_OV:
-			uint32_tickTime = st_TIMER_config[enu_a_timerUsed].prescalerUsed / XTAL_FREQ;
+			uint32_tickTime = str_timer_config[enu_a_timerUsed].prescalerUsed / XTAL_FREQ;
 			uint32_numberOfTicks = ((f32_desiredTime*1000)/uint32_tickTime);
 			
 			gl_uint32_timer0NumberOfOVFs = uint32_numberOfTicks / 256;
@@ -226,10 +226,10 @@ enu_TIMER_error_t TIMER_setTime(enu_TIMER_number_t enu_a_timerUsed, f32_t_ f32_d
 		break;
 		
 		case TIMER_1:
-		switch(st_TIMER_config[enu_a_timerUsed].waveformUsed)
+		switch(str_timer_config[enu_a_timerUsed].waveformUsed)
 		{
 			case TIMER_OV:
-			uint32_tickTime = st_TIMER_config[enu_a_timerUsed].prescalerUsed / XTAL_FREQ;
+			uint32_tickTime = str_timer_config[enu_a_timerUsed].prescalerUsed / XTAL_FREQ;
 			uint32_numberOfTicks = ((f32_desiredTime*1000)/uint32_tickTime);
 			
 			gl_uint32_timer1NumberOfOVFs = uint32_numberOfTicks / 65536;
@@ -261,10 +261,10 @@ enu_TIMER_error_t TIMER_setTime(enu_TIMER_number_t enu_a_timerUsed, f32_t_ f32_d
 		break;
 		
 		case TIMER_2:
-		switch(st_TIMER_config[enu_a_timerUsed].waveformUsed)
+		switch(str_timer_config[enu_a_timerUsed].waveformUsed)
 		{
 			case TIMER_OV:
-			uint32_tickTime = st_TIMER_config[enu_a_timerUsed].prescalerUsed / XTAL_FREQ;
+			uint32_tickTime = str_timer_config[enu_a_timerUsed].prescalerUsed / XTAL_FREQ;
 			uint32_numberOfTicks = ((f32_desiredTime*1000)/uint32_tickTime);
 			
 			gl_uint32_timer2NumberOfOVFs = uint32_numberOfTicks / 256;
@@ -301,24 +301,24 @@ enu_TIMER_error_t TIMER_setTime(enu_TIMER_number_t enu_a_timerUsed, f32_t_ f32_d
 
 
 /******************************************************************************
-* @Syntax          : enu_TIMER_error_t TIMER_resume(enu_TIMER_number_t enu_a_timerUsed)
+* @Syntax          : enu_timer_error_t timer_resume(enu_timer_number_t enu_a_timerUsed)
 * @Description     : makes the timer to start/resume counting
 * @Sync\Async      : Synchronous
 * @Reentrancy      : Reentrant
-* @Parameters (in) : enu_TIMER_number_t		enu_a_timerUsed
+* @Parameters (in) : enu_timer_number_t		enu_a_timerUsed
 * @Parameters (out): None
-* @Return value:   : enu_TIMER_error_t		TIMER_OK = 0
+* @Return value:   : enu_timer_error_t		TIMER_OK = 0
 *											TIMER_WRONG_TIMER_USED = 1
 *											TIMER_WRONG_DESIRED_TIME = 2
 *											TIMER_NOK = 3
 *******************************************************************************/
-enu_TIMER_error_t TIMER_resume(enu_TIMER_number_t enu_a_timerUsed)
+enu_timer_error_t timer_resume(enu_timer_number_t enu_a_timerUsed)
 {
-	enu_TIMER_error_t returnValue = TIMER_OK;
+	enu_timer_error_t returnValue = TIMER_OK;
 	switch(enu_a_timerUsed)
 	{
 		case TIMER_0:
-		switch(st_TIMER_config[TIMER_0].prescalerUsed)
+		switch(str_timer_config[TIMER_0].prescalerUsed)
 		{
 			case TIMER_PRESCLNG_1:
 			CLR_BIT(TCCR0, CS02);	CLR_BIT(TCCR0, CS01);	SET_BIT(TCCR0, CS00);
@@ -345,7 +345,7 @@ enu_TIMER_error_t TIMER_resume(enu_TIMER_number_t enu_a_timerUsed)
 		break;
 		
 		case TIMER_1:
-		switch(st_TIMER_config[TIMER_1].prescalerUsed)
+		switch(str_timer_config[TIMER_1].prescalerUsed)
 		{
 			case TIMER_PRESCLNG_1:
 			CLR_BIT(TCCR1B, CS12);	CLR_BIT(TCCR1B, CS11);	SET_BIT(TCCR1B, CS10);
@@ -372,7 +372,7 @@ enu_TIMER_error_t TIMER_resume(enu_TIMER_number_t enu_a_timerUsed)
 		break;
 		
 		case TIMER_2:
-		switch(st_TIMER_config[TIMER_1].prescalerUsed)
+		switch(str_timer_config[TIMER_1].prescalerUsed)
 		{
 			case TIMER_PRESCLNG_1:
 			CLR_BIT(TCCR2,CS22); CLR_BIT(TCCR2,CS21);	SET_BIT(TCCR2,CS20);
@@ -407,20 +407,20 @@ enu_TIMER_error_t TIMER_resume(enu_TIMER_number_t enu_a_timerUsed)
 
 
 /******************************************************************************
-* @Syntax          : enu_TIMER_error_t TIMER_pause(enu_TIMER_number_t enu_a_timerUsed)
+* @Syntax          : enu_timer_error_t timer_pause(enu_timer_number_t enu_a_timerUsed)
 * @Description     : makes the timer to pause counting
 * @Sync\Async      : Synchronous
 * @Reentrancy      : Reentrant
-* @Parameters (in) : enu_TIMER_number_t		enu_a_timerUsed
+* @Parameters (in) : enu_timer_number_t		enu_a_timerUsed
 * @Parameters (out): None
-* @Return value:   : enu_TIMER_error_t		TIMER_OK = 0
+* @Return value:   : enu_timer_error_t		TIMER_OK = 0
 *											TIMER_WRONG_TIMER_USED = 1
 *											TIMER_WRONG_DESIRED_TIME = 2
 *											TIMER_NOK = 3
 *******************************************************************************/
-enu_TIMER_error_t TIMER_pause(enu_TIMER_number_t enu_a_timerUsed)
+enu_timer_error_t timer_pause(enu_timer_number_t enu_a_timerUsed)
 {
-	enu_TIMER_error_t returnValue = TIMER_OK;
+	enu_timer_error_t returnValue = TIMER_OK;
 	switch(enu_a_timerUsed)
 	{
 		case TIMER_0:
@@ -440,20 +440,20 @@ enu_TIMER_error_t TIMER_pause(enu_TIMER_number_t enu_a_timerUsed)
 }
 
 /******************************************************************************
-* @Syntax          : enu_TIMER_error_t TIMER_disableInterrupt(enu_TIMER_number_t enu_a_timerUsed)
+* @Syntax          : enu_timer_error_t timer_disable_interrupt(enu_timer_number_t enu_a_timerUsed)
 * @Description     : Disables timer's interrupts
 * @Sync\Async      : Synchronous
 * @Reentrancy      : Reentrant
-* @Parameters (in) : enu_TIMER_number_t		enu_a_timerUsed
+* @Parameters (in) : enu_timer_number_t		enu_a_timerUsed
 * @Parameters (out): None
-* @Return value:   : enu_TIMER_error_t		TIMER_OK = 0
+* @Return value:   : enu_timer_error_t		TIMER_OK = 0
 *											TIMER_WRONG_TIMER_USED = 1
 *											TIMER_WRONG_DESIRED_TIME = 2
 *											TIMER_NOK = 3
 *******************************************************************************/
-enu_TIMER_error_t TIMER_disableInterrupt(enu_TIMER_number_t enu_a_timerUsed)
+enu_timer_error_t timer_disable_interrupt(enu_timer_number_t enu_a_timerUsed)
 {
-	enu_TIMER_error_t returnValue = TIMER_OK;
+	enu_timer_error_t returnValue = TIMER_OK;
 	switch(enu_a_timerUsed)
 	{
 		case TIMER_0:	CLR_BIT(TIMSK,TOIE0);				break;
@@ -469,20 +469,20 @@ enu_TIMER_error_t TIMER_disableInterrupt(enu_TIMER_number_t enu_a_timerUsed)
 }
 
 /******************************************************************************
-* @Syntax          : enu_TIMER_error_t TIMER_enableInterrupt(enu_TIMER_number_t enu_a_timerUsed)
+* @Syntax          : enu_timer_error_t timer_enable_interrupt(enu_timer_number_t enu_a_timerUsed)
 * @Description     : Enables timer's interrupts
 * @Sync\Async      : Synchronous
 * @Reentrancy      : Reentrant
-* @Parameters (in) : enu_TIMER_number_t		enu_a_timerUsed
+* @Parameters (in) : enu_timer_number_t		enu_a_timerUsed
 * @Parameters (out): None
-* @Return value:   : enu_TIMER_error_t		TIMER_OK = 0
+* @Return value:   : enu_timer_error_t		TIMER_OK = 0
 *											TIMER_WRONG_TIMER_USED = 1
 *											TIMER_WRONG_DESIRED_TIME = 2
 *											TIMER_NOK = 3
 *******************************************************************************/
-enu_TIMER_error_t TIMER_enableInterrupt(enu_TIMER_number_t enu_a_timerUsed)
+enu_timer_error_t timer_enable_interrupt(enu_timer_number_t enu_a_timerUsed)
 {
-	enu_TIMER_error_t returnValue = TIMER_OK;
+	enu_timer_error_t returnValue = TIMER_OK;
 	switch(enu_a_timerUsed)
 	{
 		case TIMER_0:	SET_BIT(TIMSK,TOIE0);				break;
@@ -498,32 +498,32 @@ enu_TIMER_error_t TIMER_enableInterrupt(enu_TIMER_number_t enu_a_timerUsed)
 }
 
 /******************************************************************************
-* @Syntax          : enu_TIMER_error_t TIMER_setCallBack
-*					 (enu_TIMER_number_t enu_a_timerUsed, void (*funPtr)(void))
+* @Syntax          : enu_timer_error_t timer_set_callback
+*					 (enu_timer_number_t enu_a_timerUsed, void (*funPtr)(void))
 * @Description     : sets the call back function for a specific timer
 * @Sync\Async      : Synchronous
 * @Reentrancy      : Reentrant
-* @Parameters (in) : enu_TIMER_number_t		enu_a_timerUsed
+* @Parameters (in) : enu_timer_number_t		enu_a_timerUsed
 *					 void					(*funPtr)(void)
 * @Parameters (out): None
-* @Return value:   : enu_TIMER_error_t		TIMER_OK = 0
+* @Return value:   : enu_timer_error_t		TIMER_OK = 0
 *											TIMER_WRONG_TIMER_USED = 1
 *											TIMER_WRONG_DESIRED_TIME = 2
 *											TIMER_NOK = 3
 *******************************************************************************/
-enu_TIMER_error_t TIMER_setCallBack(enu_TIMER_number_t enu_a_timerUsed, void (*funPtr)(void))
+enu_timer_error_t timer_set_callback(enu_timer_number_t enu_a_timerUsed, void (*funPtr)(void))
 {
-	enu_TIMER_error_t returnValue = TIMER_OK;
+	enu_timer_error_t returnValue = TIMER_OK;
 	
 	if(funPtr != NULL_PTR)	
 	{	
 		switch(enu_a_timerUsed)
 		{
-			case TIMER_0:	TIMER_0_callBack = funPtr;			break;
+			case TIMER_0:	timer_0_callback = funPtr;			break;
 			
-			case TIMER_1:	TIMER_1_callBack = funPtr;			break;
+			case TIMER_1:	timer_1_callback = funPtr;			break;
 			
-			case TIMER_2:	TIMER_2_callBack = funPtr;			break;
+			case TIMER_2:	timer_2_callback = funPtr;			break;
 			
 			default:	returnValue = TIMER_WRONG_TIMER_USED;	break;
 		}
@@ -542,9 +542,9 @@ ISR(TIM0_OVF_INT)
 		gl_uint32_timer0OVFCounter ++;
 		if (gl_uint32_timer0OVFCounter == gl_uint32_timer0NumberOfOVFs)
 		{
-			if(TIMER_0_callBack != NULL_PTR)
+			if(timer_0_callback != NULL_PTR)
 			{
-				TIMER_0_callBack();
+				timer_0_callback();
 			}
 			gl_uint32_timer0OVFCounter   =	0;
 			TCNT0 = 256 - gl_uint8_timer0RemTicks;
@@ -561,9 +561,9 @@ ISR(TIM1_OVF_INT)
 	gl_uint32_timer1OVFCounter ++;
 	if (gl_uint32_timer1OVFCounter  == gl_uint32_timer1NumberOfOVFs)
 	{
-		if(TIMER_1_callBack != NULL_PTR)
+		if(timer_1_callback != NULL_PTR)
 		{
-			TIMER_1_callBack();
+			timer_1_callback();
 		}
 		gl_uint32_timer1OVFCounter  =	0;
 		TCNT1 = 65536 - gl_uint16_timer1RemTicks;
@@ -577,9 +577,9 @@ ISR(TIM2_OVF_INT)
 	gl_uint32_timer2OVFCounter ++;
 	if (gl_uint32_timer2OVFCounter  == gl_uint32_timer2NumberOfOVFs)
 	{
-		if(TIMER_2_callBack != NULL_PTR)
+		if(timer_2_callback != NULL_PTR)
 		{
-			TIMER_2_callBack();
+			timer_2_callback();
 		}
 		gl_uint32_timer2OVFCounter  =	0;
 		TCNT2 = 256 - gl_uint8_timer2RemTicks;
