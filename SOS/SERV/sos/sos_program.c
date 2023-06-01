@@ -346,6 +346,7 @@ enu_sos_status_t_ sos_create_task(str_sos_task_t_* ptr_str_task)
 
                 // save task in DB
                 gl_arr_ptr_str_task[uint8_number_of_tasks_in_db] = ptr_str_task;
+				gl_uint8_number_of_tasks_added++;
 
                 // sort DB tasks according to task priority // todo-hossam check on alaa adding a return value for this?
                 sos_sort_database();
