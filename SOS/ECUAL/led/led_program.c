@@ -25,7 +25,7 @@
 enu_led_error_t_ led_init(enu_led_port_t_ enu_led_port, enu_led_pin_t_ enu_led_pin)
 {
     enu_led_error_t_ enu_led_error_retval = LED_OK;
-    if((LED_PORT_TOTAL >= enu_led_port) || (LED_PIN_TOTAL >= enu_led_pin))
+    if((LED_PORT_TOTAL <= enu_led_port) || (LED_PIN_TOTAL <= enu_led_pin))
     {
         enu_led_error_retval = LED_ERROR;
     }
@@ -53,7 +53,7 @@ enu_led_error_t_ led_init(enu_led_port_t_ enu_led_port, enu_led_pin_t_ enu_led_p
 enu_led_error_t_ led_on(enu_led_port_t_ enu_led_port, enu_led_pin_t_ enu_led_pin)
 {
     enu_led_error_t_ enu_led_error_retval = LED_OK;
-    if((LED_PORT_TOTAL >= enu_led_port) || (LED_PIN_TOTAL >= enu_led_pin))
+    if((LED_PORT_TOTAL <= enu_led_port) || (LED_PIN_TOTAL <= enu_led_pin))
     {
         enu_led_error_retval = LED_ERROR;
     }
@@ -81,7 +81,7 @@ enu_led_error_t_ led_off(enu_led_port_t_ enu_led_port, enu_led_pin_t_ enu_led_pi
 {
     enu_led_error_t_ enu_led_error_retval = LED_OK;
 
-    if((LED_PORT_TOTAL >= enu_led_port) || (LED_PIN_TOTAL >= enu_led_pin))
+    if((LED_PORT_TOTAL <= enu_led_port) || (LED_PIN_TOTAL <= enu_led_pin))
     {
         enu_led_error_retval = LED_ERROR;
     }
@@ -109,7 +109,7 @@ enu_led_error_t_ led_toggle(enu_led_port_t_ enu_led_port, enu_led_pin_t_ enu_led
 {
     enu_led_error_t_ enu_led_error_retval = LED_OK;
 
-    if((LED_PORT_TOTAL >= enu_led_port) || (LED_PIN_TOTAL >= enu_led_pin))
+    if((LED_PORT_TOTAL <= enu_led_port) || (LED_PIN_TOTAL <= enu_led_pin))
     {
         enu_led_error_retval = LED_ERROR;
     }

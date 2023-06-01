@@ -5,6 +5,7 @@
 *  Author: Alaa
 */
 
+#include "dio_interface.h"
 #include "exi_interface.h"
 
 #include "btn_interface.h"
@@ -33,8 +34,8 @@ enu_btn_status_code_t_ btn_init(str_btn_config_t_* ptr_str_btn_config)
 		lo_enu_btn_status =
 		dio_init
 		(
-		ptr_str_btn_config->enu_btn_port,
-		ptr_str_btn_config->enu_btn_pin	,
+		(enu_dio_port_t_) ptr_str_btn_config->enu_btn_port,
+		(enu_dio_pin_t_)  ptr_str_btn_config->enu_btn_pin ,
 		DIO_IN
 		);
 		
@@ -47,8 +48,8 @@ enu_btn_status_code_t_ btn_init(str_btn_config_t_* ptr_str_btn_config)
 					lo_enu_btn_status =
 					dio_write
 					(
-					ptr_str_btn_config->enu_btn_port,
-					ptr_str_btn_config->enu_btn_pin	,
+					(enu_dio_port_t_) ptr_str_btn_config->enu_btn_port,
+					(enu_dio_pin_t_)  ptr_str_btn_config->enu_btn_pin ,
 					DIO_PIN_HIGH
 					);
 					break;
@@ -126,7 +127,9 @@ enu_btn_status_code_t_ btn_read(str_btn_config_t_* ptr_str_btn_config, enu_btn_s
 	{
 		if(BTN_ACTIVATED == ptr_str_btn_config->enu_btn_activation)
 		{
-			dio_read(ptr_str_btn_config->enu_btn_port, ptr_str_btn_config->enu_btn_pin, &lo_enu_btn_val);
+			dio_read((enu_dio_port_t_) ptr_str_btn_config->enu_btn_port,
+					 (enu_dio_pin_t_)  ptr_str_btn_config->enu_btn_pin , 
+					 &lo_enu_btn_val);
 
 			switch (ptr_str_btn_config->enu_btn_pull_type)
 			{

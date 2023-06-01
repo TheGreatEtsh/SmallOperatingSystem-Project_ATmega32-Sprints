@@ -9,7 +9,29 @@
 #ifndef BTN_INTERFACE_H_
 #define BTN_INTERFACE_H_
 
-#include "dio_interface.h"
+
+/* button Pins */
+typedef enum{
+	BTN_PIN_0	=	0	,
+	BTN_PIN_1			,
+	BTN_PIN_2			,
+	BTN_PIN_3			,
+	BTN_PIN_4			,
+	BTN_PIN_5			,
+	BTN_PIN_6			,
+	BTN_PIN_7			,
+	BTN_PIN_TOTAL
+}enu_btn_pin_t_;
+
+/* button Ports */
+typedef enum
+{
+	BTN_PORT_A	=	0	,
+	BTN_PORT_B			,
+	BTN_PORT_C			,
+	BTN_PORT_D			,
+	BTN_PORT_TOTAL
+}enu_btn_port_t_;
 
 typedef enum
 {
@@ -48,8 +70,8 @@ typedef enum
 
 typedef struct
 {
-	enu_dio_port_t_				enu_btn_port 	  ;
-	enu_dio_pin_t_ 				enu_btn_pin 	  ;	
+	enu_btn_port_t_				enu_btn_port 	  ;
+	enu_btn_pin_t_ 				enu_btn_pin 	  ;	
 	enu_btn_read_mode_t_		enu_btn_read_mode ;
 	enu_btn_pull_t_				enu_btn_pull_type ;
 	/** Read only */

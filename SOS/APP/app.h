@@ -15,11 +15,11 @@
 #define APP_LED_1_PORT				LED_PORT_B
 #define APP_LED_1_PIN				LED_PIN_5
 									
-#define APP_START_ENU_BTN_PORT		LED_PORT_B
-#define APP_START_ENU_BTN_PIN		LED_PIN_2
+#define APP_START_ENU_BTN_PORT		BTN_PORT_B
+#define APP_START_ENU_BTN_PIN		BTN_PIN_2
 									
-#define APP_STOP_ENU_BTN_PORT		LED_PORT_D
-#define APP_STOP_ENU_BTN_PIN		LED_PIN_2
+#define APP_STOP_ENU_BTN_PORT		BTN_PORT_C
+#define APP_STOP_ENU_BTN_PIN		BTN_PIN_4
 
 
 void app_init(void);
