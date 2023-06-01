@@ -10,6 +10,15 @@
 #define SOS_PRIVATE_H_
 #include "sos_interface.h"
 
+typedef enum
+{
+    SOS_SCHEDULER_UNINITIALIZED		= 0 ,
+    SOS_SCHEDULER_INITIALIZED		    ,
+    SOS_SCHEDULER_BLOCKED		        ,
+    SOS_SCHEDULER_READY
+}enu_sos_scheduler_state_t_;
+
+
 static enu_sos_status_t_	sos_find_task		(uint8_t_ uint8_task_id, str_sos_task_t_ ** ptr_ptr_str_sos_task, uint8_t_ * uint8_task_index_in_db);
 static void					sos_sort_database	(uint8_t_ uint8_task_db_index);
 static void					sos_system_scheduler(void);

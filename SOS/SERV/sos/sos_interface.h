@@ -17,14 +17,6 @@ typedef void(*ptr_func_task_t_)(void);
 
 typedef enum
 {
-	SOS_SCHEDULER_UNINITIALIZED		= 0 ,
-	SOS_SCHEDULER_INITIALIZED		    ,
-	SOS_SCHEDULER_BLOCKED		        ,
-	SOS_SCHEDULER_READY
-}enu_sos_scheduler_state_t_;
-
-typedef enum
-{
 	SOS_STATUS_SUCCESS				= 0	,
 	SOS_STATUS_FAILED					,
 	SOS_STATUS_INVALID_STATE			,
