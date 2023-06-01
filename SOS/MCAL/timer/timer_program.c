@@ -172,7 +172,7 @@ enu_TIMER_error_t TIMER_init( void )
 }
 
 /******************************************************************************
-* @Syntax          : enu_TIMER_error_t TIMER_setTime
+* @Syntax          : enu_TIMER_error_t TIMER_set_time
 *					 (enu_TIMER_number_t enu_a_timerUsed, f32 f32_desiredTime)
 * @Description     : set the time at which the timer interrupts
 * @Sync\Async      : Synchronous
@@ -185,7 +185,7 @@ enu_TIMER_error_t TIMER_init( void )
 *											TIMER_WRONG_DESIRED_TIME = 2
 *											TIMER_NOK = 3
 *******************************************************************************/
-enu_TIMER_error_t TIMER_setTime(enu_TIMER_number_t enu_a_timerUsed, f32_t_ f32_desiredTime)
+enu_TIMER_error_t TIMER_set_time(enu_TIMER_number_t enu_a_timerUsed, f32_t_ f32_desiredTime)
 {
 	enu_TIMER_error_t returnValue = TIMER_OK;
 	uint32_t_ uint32_tickTime = 0;
@@ -469,7 +469,7 @@ enu_TIMER_error_t TIMER_disableInterrupt(enu_TIMER_number_t enu_a_timerUsed)
 }
 
 /******************************************************************************
-* @Syntax          : enu_TIMER_error_t TIMER_enableInterrupt(enu_TIMER_number_t enu_a_timerUsed)
+* @Syntax          : enu_TIMER_error_t TIMER_enable_interrupt(enu_TIMER_number_t enu_a_timerUsed)
 * @Description     : Enables timer's interrupts
 * @Sync\Async      : Synchronous
 * @Reentrancy      : Reentrant
@@ -480,7 +480,7 @@ enu_TIMER_error_t TIMER_disableInterrupt(enu_TIMER_number_t enu_a_timerUsed)
 *											TIMER_WRONG_DESIRED_TIME = 2
 *											TIMER_NOK = 3
 *******************************************************************************/
-enu_TIMER_error_t TIMER_enableInterrupt(enu_TIMER_number_t enu_a_timerUsed)
+enu_TIMER_error_t TIMER_enable_interrupt(enu_TIMER_number_t enu_a_timerUsed)
 {
 	enu_TIMER_error_t returnValue = TIMER_OK;
 	switch(enu_a_timerUsed)
@@ -498,7 +498,7 @@ enu_TIMER_error_t TIMER_enableInterrupt(enu_TIMER_number_t enu_a_timerUsed)
 }
 
 /******************************************************************************
-* @Syntax          : enu_TIMER_error_t TIMER_setCallBack
+* @Syntax          : enu_TIMER_error_t TIMER_set_callback
 *					 (enu_TIMER_number_t enu_a_timerUsed, void (*funPtr)(void))
 * @Description     : sets the call back function for a specific timer
 * @Sync\Async      : Synchronous
@@ -511,7 +511,7 @@ enu_TIMER_error_t TIMER_enableInterrupt(enu_TIMER_number_t enu_a_timerUsed)
 *											TIMER_WRONG_DESIRED_TIME = 2
 *											TIMER_NOK = 3
 *******************************************************************************/
-enu_TIMER_error_t TIMER_setCallBack(enu_TIMER_number_t enu_a_timerUsed, void (*funPtr)(void))
+enu_TIMER_error_t TIMER_set_callback(enu_TIMER_number_t enu_a_timerUsed, void (*funPtr)(void))
 {
 	enu_TIMER_error_t returnValue = TIMER_OK;
 	

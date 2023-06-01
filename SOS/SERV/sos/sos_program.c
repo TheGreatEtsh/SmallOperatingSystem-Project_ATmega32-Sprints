@@ -30,7 +30,7 @@ enu_sos_status_t_ sos_init(void)
 	}
 	
 	
-	if (TIMER_setTime(TIMER_0, SOS_SYS_TICK_TIME_MS)==TIMER_NOK)
+	if (TIMER_set_time(TIMER_0, SOS_SYS_TICK_TIME_MS)==TIMER_NOK)
 	{
 		enu_sos_status_retval = SOS_STATUS_FAILED;
 	} 
@@ -38,13 +38,13 @@ enu_sos_status_t_ sos_init(void)
 	{//SUCCESS
 	}
 	
-	if (TIMER_enableInterrupt(TIMER_0)==TIMER_NOK)
+	if (TIMER_enable_interrupt(TIMER_0)==TIMER_NOK)
 	{enu_sos_status_retval = SOS_STATUS_FAILED;
 	} 
 	else
 	{//SUCCESS
 	}
-	if (TIMER_setCallBack(TIMER_0,sos_sys_tick_task)== TIMER_NOK)
+	if (TIMER_set_callback(TIMER_0,sos_sys_tick_task)== TIMER_NOK)
 	{enu_sos_status_retval = SOS_STATUS_FAILED;
 	} 
 	else
@@ -108,7 +108,7 @@ enu_sos_status_t_ sos_init(void)
 	
 	
 
-return enu_sos_status_retval;	
+return enu_sos_status_retval;
 	
 	
 	
