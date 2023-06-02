@@ -3,9 +3,9 @@
 #### Author: Team 1
 - #### Members:
     - Ahmed Hesham
-    - Sarah Mohamed
     - Alaa Hisham
     - Hossam Elwahsh
+    - Sarah Mohamed
 
 ## Brief
 > This project aims to deliver an SOS -Small Operating System - which will manage the scheduling of some tasks. The project will resemble RTOS and for the delivery, it will be tested on some output/input modules which will toggle LEDs at different periodicities and check the buttons’ states too.
