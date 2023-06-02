@@ -72,6 +72,7 @@ enu_app_init_status_t_ app_init(void)
 	if(lo_enu_sos_status != SOS_STATUS_SUCCESS) {return APP_INIT_FAILED;}
 	
 	/* Create Tasks */
+	 
 	gl_str_led0_task = (str_sos_task_t_)
 	{
 		.uint8_task_id			 = NULL		 ,
@@ -95,10 +96,65 @@ enu_app_init_status_t_ app_init(void)
 		.uint16_task_periodicity = 1			 ,
 		.ptr_func_task			 = app_stop_btn
 	};
+
 	
-	sos_create_task(&gl_str_led0_task);
-	sos_create_task(&gl_str_led1_task);
-	sos_create_task(&gl_str_stop_btn_task);
+	lo_enu_sos_status = sos_create_task(&gl_str_led0_task);
+	
+	if(SOS_STATUS_INVALID_STATE == lo_enu_sos_status)
+	{
+		/*HANDLING ERROR CODE*/
+	}
+	else if (SOS_STATUS_INVALID_ARGS == lo_enu_sos_status)
+	{
+		/*HANDLING ERROR CODE*/
+	}
+	else if (SOS_STATUS_DATABASE_FULL == lo_enu_sos_status)
+	{
+		/*HANDLING ERROR CODE*/
+	}
+	else 
+	{
+		/*SUCCESS*/
+	}
+	
+	
+	lo_enu_sos_status = sos_create_task(&gl_str_led1_task);
+	
+	if(SOS_STATUS_INVALID_STATE == lo_enu_sos_status)
+	{
+		/*HANDLING ERROR CODE*/
+	}
+	else if (SOS_STATUS_INVALID_ARGS == lo_enu_sos_status)
+	{
+		/*HANDLING ERROR CODE*/
+	}
+	else if (SOS_STATUS_DATABASE_FULL == lo_enu_sos_status)
+	{
+		/*HANDLING ERROR CODE*/
+	}
+	else
+	{
+		/*SUCCESS*/
+	}
+	
+	
+	lo_enu_sos_status = sos_create_task(&gl_str_stop_btn_task);
+	if(SOS_STATUS_INVALID_STATE == lo_enu_sos_status)
+	{
+		/*HANDLING ERROR CODE*/
+	}
+	else if (SOS_STATUS_INVALID_ARGS == lo_enu_sos_status)
+	{
+		/*HANDLING ERROR CODE*/
+	}
+	else if (SOS_STATUS_DATABASE_FULL == lo_enu_sos_status)
+	{
+		/*HANDLING ERROR CODE*/
+	}
+	else
+	{
+		/*SUCCESS*/
+	}
 	
 	/* Enable global interrupt */
 	sei();
@@ -130,17 +186,38 @@ void app_start(void)
 
 static void app_led0(void)
 {
-	led_toggle(APP_LED_0_PORT, APP_LED_0_PIN);
+	if(LED_OK != led_toggle(APP_LED_0_PORT, APP_LED_0_PIN))
+	{
+		/*HANDLING ERROR CODE*/
+	}
+	else
+	{
+		/*SUCCESS*/
+	}
 }
 
 static void app_led1(void)
 {
-	led_toggle(APP_LED_1_PORT, APP_LED_1_PIN);
+	if(LED_OK != led_toggle(APP_LED_1_PORT, APP_LED_1_PIN))
+	{
+		/*HANDLING ERROR CODE*/
+	}
+	else
+	{
+		/*SUCCESS*/
+	}
 }
 
 static void app_stop_btn(void)
 {
-	btn_read(&gl_str_stop_btn, &gl_enu_stop_btn_state);
+	if(BTN_STATUS_OK != btn_read(&gl_str_stop_btn, &gl_enu_stop_btn_state) )
+	{
+		/*HANDLING ERROR CODE*/
+	}
+	else
+	{
+		/*SUCCESS*/
+	}
 	
 	if(gl_enu_stop_btn_state == BTN_STATE_PRESSED)
 	{
