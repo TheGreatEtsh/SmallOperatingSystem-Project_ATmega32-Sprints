@@ -9,6 +9,8 @@
 #ifndef SOS_PRIVATE_H_
 #define SOS_PRIVATE_H_
 #include "sos_interface.h"
+#include "sos_preconfig.h"
+#include "timer_interface.h"
 
 typedef enum
 {
