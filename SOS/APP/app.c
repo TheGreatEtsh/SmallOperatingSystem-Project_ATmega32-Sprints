@@ -31,11 +31,13 @@ static enu_btn_state_t_ gl_enu_stop_btn_state = BTN_STATE_NOT_PRESSED;
 
 enu_app_init_status_t_ app_init(void)
 {
-	
 	/* Initialize LEDs */
 	enu_led_error_t_ lo_enu_led_status = 0;
 	lo_enu_led_status = led_init(APP_LED_0_PORT, APP_LED_0_PIN);
-	lo_enu_led_status += led_init(APP_LED_1_PORT, APP_LED_1_PIN);
+	
+	if(lo_enu_led_status != LED_OK) {return APP_INIT_FAILED;}
+		
+	lo_enu_led_status = led_init(APP_LED_1_PORT, APP_LED_1_PIN);
 	
 	if(lo_enu_led_status != LED_OK) {return APP_INIT_FAILED;}
 	
@@ -61,8 +63,14 @@ enu_app_init_status_t_ app_init(void)
 	enu_btn_status_code_t_ lo_enu_btn_status;
 	
 	lo_enu_btn_status = btn_init(&gl_str_start_btn);
-	lo_enu_btn_status += btn_set_notification(&gl_str_start_btn, app_start_btn);
-	lo_enu_btn_status += btn_init(&gl_str_stop_btn);
+	
+	if(lo_enu_btn_status != BTN_STATUS_OK) {return APP_INIT_FAILED;}
+		
+	lo_enu_btn_status = btn_set_notification(&gl_str_start_btn, app_start_btn);
+	
+	if(lo_enu_btn_status != BTN_STATUS_OK) {return APP_INIT_FAILED;}
+	
+	lo_enu_btn_status = btn_init(&gl_str_stop_btn);
 	
 	if(lo_enu_btn_status != BTN_STATUS_OK) {return APP_INIT_FAILED;}
 	
