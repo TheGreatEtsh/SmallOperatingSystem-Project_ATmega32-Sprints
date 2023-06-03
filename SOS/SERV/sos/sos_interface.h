@@ -10,8 +10,8 @@
 #define SOS_INTERFACE_H_
 
 #include "std.h"
-#include "sos_preconfig.h"
-#include "timer_interface.h"
+
+
 
 typedef void(*ptr_func_task_t_)(void);
 
