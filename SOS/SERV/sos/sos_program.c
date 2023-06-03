@@ -232,9 +232,9 @@ enu_sos_status_t_ sos_modify_task(uint8_t_ uint8_task_id)
     else
     {
         // search for task ID in DB
-        str_sos_task_t_ * ptr_str_sos_task_to_delete = NULL;
+        str_sos_task_t_ * ptr_str_sos_task_to_modify = NULL;
         uint8_t_ uint8_task_index_in_db = 0;
-        enu_sos_status_retval = sos_find_task(uint8_task_id, &ptr_str_sos_task_to_delete, &uint8_task_index_in_db);
+        enu_sos_status_retval = sos_find_task(uint8_task_id, &ptr_str_sos_task_to_modify, &uint8_task_index_in_db);
 
         if(SOS_STATUS_SUCCESS == enu_sos_status_retval) // task found
         {
