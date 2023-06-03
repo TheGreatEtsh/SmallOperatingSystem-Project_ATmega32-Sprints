@@ -95,61 +95,15 @@ enu_app_init_status_t_ app_init(void)
 	/* Create Tasks */ 
 	lo_enu_sos_status = sos_create_task(&gl_str_led0_task);
 	
-	if(SOS_STATUS_INVALID_STATE == lo_enu_sos_status)
-	{
-		/*HANDLING ERROR CODE*/
-	}
-	else if (SOS_STATUS_INVALID_ARGS == lo_enu_sos_status)
-	{
-		/*HANDLING ERROR CODE*/
-	}
-	else if (SOS_STATUS_DATABASE_FULL == lo_enu_sos_status)
-	{
-		/*HANDLING ERROR CODE*/
-	}
-	else 
-	{
-		/*SUCCESS*/
-	}
-	
+	if(lo_enu_sos_status != SOS_STATUS_SUCCESS) {return APP_INIT_FAILED;}
 	
 	lo_enu_sos_status = sos_create_task(&gl_str_led1_task);
 	
-	if(SOS_STATUS_INVALID_STATE == lo_enu_sos_status)
-	{
-		/*HANDLING ERROR CODE*/
-	}
-	else if (SOS_STATUS_INVALID_ARGS == lo_enu_sos_status)
-	{
-		/*HANDLING ERROR CODE*/
-	}
-	else if (SOS_STATUS_DATABASE_FULL == lo_enu_sos_status)
-	{
-		/*HANDLING ERROR CODE*/
-	}
-	else
-	{
-		/*SUCCESS*/
-	}
-	
+	if(lo_enu_sos_status != SOS_STATUS_SUCCESS) {return APP_INIT_FAILED;}
 	
 	lo_enu_sos_status = sos_create_task(&gl_str_stop_btn_task);
-	if(SOS_STATUS_INVALID_STATE == lo_enu_sos_status)
-	{
-		/*HANDLING ERROR CODE*/
-	}
-	else if (SOS_STATUS_INVALID_ARGS == lo_enu_sos_status)
-	{
-		/*HANDLING ERROR CODE*/
-	}
-	else if (SOS_STATUS_DATABASE_FULL == lo_enu_sos_status)
-	{
-		/*HANDLING ERROR CODE*/
-	}
-	else
-	{
-		/*SUCCESS*/
-	}
+	
+	if(lo_enu_sos_status != SOS_STATUS_SUCCESS) {return APP_INIT_FAILED;}
 	
 	/* Enable global interrupt */
 	sei();
