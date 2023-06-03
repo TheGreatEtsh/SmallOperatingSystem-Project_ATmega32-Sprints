@@ -41,24 +41,19 @@ enu_app_init_status_t_ app_init(void)
 	
 	if(lo_enu_led_status != LED_OK) {return APP_INIT_FAILED;}
 	
-	/* Initialize push buttons */
-	gl_str_start_btn = (str_btn_config_t_)
-	{
-		.enu_btn_port	    = APP_START_ENU_BTN_PORT		,
-		.enu_btn_pin	    = APP_START_ENU_BTN_PIN 		,
-		.enu_btn_read_mode  = BTN_MODE_INTERRUPT			,
-		.enu_btn_pull_type  = BTN_EXTERNAL_PULL_DOWN		,
-		.enu_btn_activation = BTN_ACTIVATED
-	};
+	/* Start Button Initialization */ 
+	gl_str_start_btn.enu_btn_port	    = APP_START_ENU_BTN_PORT	;
+	gl_str_start_btn.enu_btn_pin	    = APP_START_ENU_BTN_PIN 	;
+	gl_str_start_btn.enu_btn_read_mode  = BTN_MODE_INTERRUPT		;
+	gl_str_start_btn.enu_btn_pull_type  = BTN_EXTERNAL_PULL_DOWN	;
+	gl_str_start_btn.enu_btn_activation = BTN_ACTIVATED				;
 	
-	gl_str_stop_btn = (str_btn_config_t_)
-	{
-		.enu_btn_port	    = APP_STOP_ENU_BTN_PORT			,
-		.enu_btn_pin	    = APP_STOP_ENU_BTN_PIN 			,
-		.enu_btn_read_mode  = BTN_MODE_INTERRUPT			,
-		.enu_btn_pull_type  = BTN_EXTERNAL_PULL_DOWN		,
-		.enu_btn_activation = BTN_ACTIVATED
-	};
+	/* Stop Button Initialization */ 
+	gl_str_stop_btn.enu_btn_port	   = APP_STOP_ENU_BTN_PORT		;
+	gl_str_stop_btn.enu_btn_pin		   = APP_STOP_ENU_BTN_PIN 		;
+	gl_str_stop_btn.enu_btn_read_mode  = BTN_MODE_INTERRUPT			;
+	gl_str_stop_btn.enu_btn_pull_type  = BTN_EXTERNAL_PULL_DOWN		;
+	gl_str_stop_btn.enu_btn_activation = BTN_ACTIVATED				;
 	
 	enu_btn_status_code_t_ lo_enu_btn_status;
 	
@@ -79,33 +74,25 @@ enu_app_init_status_t_ app_init(void)
 	
 	if(lo_enu_sos_status != SOS_STATUS_SUCCESS) {return APP_INIT_FAILED;}
 	
-	/* Create Tasks */
-	 
-	gl_str_led0_task = (str_sos_task_t_)
-	{
-		.uint8_task_id			 = NULL		 ,
-		.uint8_task_priority	 = 1		 ,
-		.uint16_task_periodicity = 15		 ,
-		.ptr_func_task			 = app_led0
-	};
+	/* LED 0 Task Initialization */
+	gl_str_led0_task.uint8_task_id			 = NULL		 ;
+	gl_str_led0_task.uint8_task_priority	 = 1		 ;
+	gl_str_led0_task.uint16_task_periodicity = 15		 ;
+	gl_str_led0_task.ptr_func_task			 = app_led0	 ;
 	
-	gl_str_led1_task = (str_sos_task_t_)
-	{
-		.uint8_task_id			 = NULL		 ,
-		.uint8_task_priority	 = 1		 ,
-		.uint16_task_periodicity = 25		 ,
-		.ptr_func_task			 = app_led1
-	};
-	
-	gl_str_stop_btn_task = (str_sos_task_t_)
-	{
-		.uint8_task_id			 = NULL			 ,
-		.uint8_task_priority	 = 0			 ,
-		.uint16_task_periodicity = 1			 ,
-		.ptr_func_task			 = app_stop_btn
-	};
+	/* LED 1 Task Initialization */
+	gl_str_led1_task.uint8_task_id			 = NULL		 ;
+	gl_str_led1_task.uint8_task_priority	 = 1		 ;
+	gl_str_led1_task.uint16_task_periodicity = 25		 ;
+	gl_str_led1_task.ptr_func_task			 = app_led1	 ;
 
-	
+	/* Stop Button Task Initialization */
+	gl_str_stop_btn_task.uint8_task_id			 = NULL			 ;
+	gl_str_stop_btn_task.uint8_task_priority	 = 0			 ;
+	gl_str_stop_btn_task.uint16_task_periodicity = 1			 ;
+	gl_str_stop_btn_task.ptr_func_task			 = app_stop_btn	 ;
+
+	/* Create Tasks */ 
 	lo_enu_sos_status = sos_create_task(&gl_str_led0_task);
 	
 	if(SOS_STATUS_INVALID_STATE == lo_enu_sos_status)
