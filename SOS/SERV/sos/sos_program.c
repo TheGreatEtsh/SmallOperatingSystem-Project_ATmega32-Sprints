@@ -590,32 +590,77 @@ static enu_sos_status_t_    sos_generate_task_id(uint8_t_ * uint8_new_task_id)
 
 static uint32_t_ gcd(uint32_t_ uint32_first_var, uint32_t_ uint32_second_variable)
 {
-    uint32_t_ uint32_gcd_value = 0, uint32_temp;
+    // Declare and initialize a uint32_t variable named uint32_gcd_value to 0.
+    uint32_t_ uint32_gcd_value = 0;
+    // Declare a uint32_t variable named uint32_temp.
+    uint32_t_ uint32_temp;
+
+    // Start a while loop that continues until uint32_second_variable is not equal to 0.
     while (uint32_second_variable != 0)
     {
+        // Store the value of uint32_second_variable in uint32_temp.
         uint32_temp = uint32_second_variable;
+        // Calculate the remainder of uint32_first_var
+        //  divided by uint32_second_variable and assign it to uint32_second_variable.
         uint32_second_variable = uint32_first_var % uint32_second_variable;
+        // Assign the value of uint32_temp to uint32_first_var.
         uint32_first_var = uint32_temp;
     }
+
+    // Assign the value of uint32_first_var to uint32_gcd_value.
     uint32_gcd_value = uint32_first_var;
+
+    // Return the calculated gcd value.
     return uint32_gcd_value;
 }
 
+
 static uint32_t_ lcm(uint32_t_ uint32_first_var, uint32_t_ uint32_second_variable)
 {
+    // Declare and initialize a uint32_t variable named uint32_lcm_return_value to 0.
     uint32_t_ uint32_lcm_return_value = 0;
+
+    // Declare and initialize an uint32_t variable named uint32_gcd_value to 0.
     uint32_t_ uint32_gcd_value = 0;
+
+    // Call the gcd (Greatest Common Divisor) function
+    //  with uint32_first_var and uint32_second_variable as arguments
+    //  and assign the returned value to uint32_gcd_value.
     uint32_gcd_value = gcd(uint32_first_var, uint32_second_variable);
+
+    // Calculate the least common multiple (lcm)
+    // by multiplying uint32_first_var and uint32_second_variable
+    // and then dividing the result by uint32_gcd_value.
+    // Assign the calculated value to uint32_lcm_return_value.
     uint32_lcm_return_value = (uint32_first_var * uint32_second_variable) / uint32_gcd_value;
+
+    // Return the calculated lcm value.
     return uint32_lcm_return_value;
 }
 
+
 static void calculate_hyper_period(uint32_t_* ptr_uint32_hyper_period)
 {
+    // Declare and initialize an uint8_t variable named uint8_looping_variable to 0.
     uint8_t_ uint8_looping_variable = 0;
+
+    // Assign the value of uint16_task_periodicity from the first element of the
+    // gl_arr_ptr_str_task array to the memory location pointed to by ptr_uint32_hyper_period.
     *ptr_uint32_hyper_period = gl_arr_ptr_str_task[0]->uint16_task_periodicity;
+
+    // Start a for loop that iterates until uint8_looping_variable
+    // is less than gl_uint8_number_of_tasks_added,
+    // incrementing uint8_looping_variable after each iteration.
     for (; uint8_looping_variable < gl_uint8_number_of_tasks_added; uint8_looping_variable++)
     {
+        // Update the value of *ptr_uint32_hyper_period
+        // by finding the least common multiple (lcm)
+        // between the current value of *ptr_uint32_hyper_period
+        // and the uint16_task_periodicity of the task
+        // pointed to by the gl_arr_ptr_str_task[uint8_looping_variable].
+        // This basically calculates the hyper period of the first two tasks periodicity,
+        // then incrementally re-calculate the hyper period for the last result with the next task periodicity
+        // until all the tasks have been processed we get the final total least hyper-period for all tasks
         *ptr_uint32_hyper_period = lcm(*ptr_uint32_hyper_period, gl_arr_ptr_str_task[uint8_looping_variable]->uint16_task_periodicity);
     }
 }
